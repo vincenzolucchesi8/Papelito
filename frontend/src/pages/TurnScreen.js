@@ -416,6 +416,37 @@ const TurnScreen = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* Restart Button */}
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full btn-paper border border-muted-foreground/30 text-muted-foreground hover:border-destructive hover:text-destructive"
+            >
+              <RotateCcw className="w-3 h-3 mr-2" />
+              Reiniciar Partida
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="paper-card max-w-sm">
+            <AlertDialogHeader>
+              <AlertDialogTitle>¿Reiniciar partida?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Se perderá todo el progreso actual. Esta acción no se puede deshacer.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="btn-paper">Cancelar</AlertDialogCancel>
+              <AlertDialogAction 
+                onClick={handleRestart}
+                className="btn-paper bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              >
+                Sí, reiniciar
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );
