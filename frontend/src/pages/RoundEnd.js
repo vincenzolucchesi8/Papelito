@@ -4,7 +4,18 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { useGame } from '../context/GameContext';
-import { Trophy, TrendingUp, ArrowRight } from 'lucide-react';
+import { Trophy, TrendingUp, ArrowRight, RotateCcw } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '../components/ui/alert-dialog';
 
 const RoundEnd = () => {
   const { gameState, updateGameState, nextRound } = useGame();
