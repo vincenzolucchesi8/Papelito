@@ -38,11 +38,11 @@ const Home = () => {
           className="text-center space-y-3"
         >
           <motion.div
-            animate={{ rotate: [0, 5, -5, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            animate={{ rotate: [0, 3, -3, 0], y: [0, -5, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             className="inline-block"
           >
-            <FileText className="w-20 h-20 mx-auto text-primary" strokeWidth={1.5} />
+            <CrumpledPaperIcon size={100} className="mx-auto" />
           </motion.div>
           <h1 className="text-5xl md:text-6xl font-bold text-foreground text-shadow-soft">
             Papelito
