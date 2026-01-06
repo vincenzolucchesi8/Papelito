@@ -406,13 +406,17 @@ const TurnScreen = () => {
         <div className="grid grid-cols-2 gap-3">
           <Card className="paper-card border border-primary/30">
             <CardContent className="p-4 text-center relative z-10">
-              <div className="text-xs text-muted-foreground mb-1">Equipo A</div>
+              <div className="text-xs text-muted-foreground mb-1">
+                {gameState.teamNames?.A || 'Equipo A'}
+              </div>
               <div className="text-2xl font-bold text-primary">{gameState.scores.A}</div>
             </CardContent>
           </Card>
           <Card className="paper-card border border-accent/30">
             <CardContent className="p-4 text-center relative z-10">
-              <div className="text-xs text-muted-foreground mb-1">Equipo B</div>
+              <div className="text-xs text-muted-foreground mb-1">
+                {gameState.teamNames?.B || 'Equipo B'}
+              </div>
               <div className="text-2xl font-bold text-accent">{gameState.scores.B}</div>
             </CardContent>
           </Card>
