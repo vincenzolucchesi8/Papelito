@@ -156,13 +156,13 @@ const RoundStart = () => {
                       💡 Mantén presionado el botón para ver el papelito durante tu turno
                     </p>
                   </div>
-                  {!gameState.config.easyMode && (
-                    <div className="p-4 bg-destructive/10 rounded-lg border-2 border-destructive/30">
-                      <p className="text-sm font-semibold text-destructive">
-                        ⚠️ Si mencionas palabra prohibida: presiona "FALTA" para ceder el turno
-                      </p>
-                    </div>
-                  )}
+                  <div className="p-4 bg-destructive/10 rounded-lg border-2 border-destructive/30">
+                    <p className="text-sm font-semibold text-destructive">
+                      {gameState.config.easyMode 
+                        ? '⚠️ Si mencionas la respuesta: presiona "FALTA" para ceder el turno'
+                        : '⚠️ Si mencionas palabra prohibida: presiona "FALTA" para ceder el turno'}
+                    </p>
+                  </div>
                 </motion.div>
               </div>
 
