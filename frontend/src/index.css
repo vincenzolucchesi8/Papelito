@@ -71,7 +71,8 @@ code {
     }
     body {
         @apply bg-background text-foreground;
-        background-image: var(--paper-texture);
+        background-image: var(--paper-texture-crumpled);
+        background-attachment: fixed;
     }
     h1, h2, h3 {
         font-family: 'Merriweather', serif;
