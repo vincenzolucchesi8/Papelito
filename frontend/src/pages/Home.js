@@ -145,6 +145,7 @@ const Home = () => {
                         <h3 className="font-semibold text-base mb-2">Durante el Turno</h3>
                         <ul className="space-y-2 text-muted-foreground">
                           <li>• El reloj cuenta el tiempo del turno</li>
+                          <li>• <span className="font-medium text-foreground">Mantén presionado</span> el botón para ver el papelito</li>
                           <li>• Da pistas según la ronda actual</li>
                           <li>• NO puedes decir la respuesta ni las restricciones</li>
                           <li>• Al adivinar, presiona "ADIVINADO" para el siguiente papelito</li>
