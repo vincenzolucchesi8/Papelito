@@ -161,13 +161,17 @@ const RoundStart = () => {
               <div className="pt-4 border-t border-border">
                 <div className="grid grid-cols-2 gap-4 text-center">
                   <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
-                    <div className="text-sm text-muted-foreground mb-1">Equipo A</div>
+                    <div className="text-sm text-muted-foreground mb-1">
+                      {gameState.teamNames?.A || 'Equipo A'}
+                    </div>
                     <div className="text-3xl font-bold text-primary">
                       {gameState.scores.A}
                     </div>
                   </div>
                   <div className="p-4 bg-accent/5 rounded-lg border border-accent/20">
-                    <div className="text-sm text-muted-foreground mb-1">Equipo B</div>
+                    <div className="text-sm text-muted-foreground mb-1">
+                      {gameState.teamNames?.B || 'Equipo B'}
+                    </div>
                     <div className="text-3xl font-bold text-accent">
                       {gameState.scores.B}
                     </div>
