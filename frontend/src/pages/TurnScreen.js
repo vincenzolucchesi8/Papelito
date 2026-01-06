@@ -13,7 +13,7 @@ const TurnScreen = () => {
   const [timeLeft, setTimeLeft] = useState(gameState.config.turnTime);
   const [isRunning, setIsRunning] = useState(false);
   const [currentPapelitoIndex, setCurrentPapelitoIndex] = useState(0);
-  const [revealed, setRevealed] = useState(false);
+  const [isRevealing, setIsRevealing] = useState(false);
   const [turnEnded, setTurnEnded] = useState(false);
 
   const currentPool = gameState.roundPools[gameState.currentRound] || [];
