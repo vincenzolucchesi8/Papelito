@@ -175,9 +175,30 @@ const TurnScreen = () => {
     }
   };
 
-  const handleEndTurn = () => {
-    nextTurn();
-    updateGameState({ screen: 'round-start' });
+  const handleFalta = () => {
+    // Detener el timer
+    setIsRunning(false);
+    setTurnEnded(true);
+    
+    // El papelito NO se marca como adivinado (vuelve al pool)
+    // NO se suma punto
+    
+    if (gameState.config.soundEnabled) {
+      // Sonido de error/buzzer
+      const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGnOPyvmwhBziK0fPTgjMGHm7A7+OZSR0KT6Pd8bllHgU7k9z0yoA');
+      audio.play().catch(() => {});
+    }
+    
+    // Alerta visual
+    toast.error('⚠️ FALTA! Mencionaron palabra prohibida', {
+      duration: 3000,
+      style: {
+        background: '#dc2626',
+        color: 'white',
+        fontSize: '18px',
+        fontWeight: 'bold',
+      },
+    });
   };
 
   const handleRestart = () => {
