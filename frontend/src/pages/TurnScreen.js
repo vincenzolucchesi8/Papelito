@@ -189,8 +189,12 @@ const TurnScreen = () => {
       audio.play().catch(() => {});
     }
     
-    // Alerta visual
-    toast.error('⚠️ FALTA! Mencionaron palabra prohibida', {
+    // Alerta visual - mensaje según el modo
+    const message = gameState.config.easyMode 
+      ? '⚠️ FALTA! Mencionaron la respuesta'
+      : '⚠️ FALTA! Mencionaron palabra prohibida';
+    
+    toast.error(message, {
       duration: 3000,
       style: {
         background: '#dc2626',
