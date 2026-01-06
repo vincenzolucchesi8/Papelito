@@ -167,6 +167,36 @@ const Configuration = () => {
           </Card>
         </motion.div>
 
+        {/* Easy Mode Toggle */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <Card className="paper-card border-2 border-border">
+            <CardContent className="p-6 space-y-3 relative z-10">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <Label htmlFor="easyMode" className="text-base font-medium cursor-pointer flex items-center gap-2">
+                    {easyMode ? '😊' : '🔥'}
+                    Modo Fácil (sin restricciones)
+                  </Label>
+                  <p className="text-xs text-muted-foreground">
+                    {easyMode 
+                      ? 'Solo escribes la respuesta, sin palabras prohibidas' 
+                      : 'Juego completo con 3 palabras prohibidas por papelito'}
+                  </p>
+                </div>
+                <Switch
+                  id="easyMode"
+                  checked={easyMode}
+                  onCheckedChange={setEasyMode}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
         {/* Players Input */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
