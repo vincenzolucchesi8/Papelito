@@ -176,6 +176,7 @@ const RoundEnd = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
+          className="space-y-3"
         >
           <Button
             onClick={handleNext}
@@ -184,6 +185,37 @@ const RoundEnd = () => {
           >
             {hasMoreRounds ? 'Siguiente Ronda' : 'Ver Resultado Final'}
           </Button>
+          
+          {/* Restart Button */}
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full btn-paper border-2 border-muted-foreground/30 text-muted-foreground hover:border-destructive hover:text-destructive"
+              >
+                <RotateCcw className="w-4 h-4 mr-2" />
+                Reiniciar Partida
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="paper-card">
+              <AlertDialogHeader>
+                <AlertDialogTitle>¿Reiniciar partida?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Se perderá todo el progreso actual: puntajes, rondas y papelitos. Esta acción no se puede deshacer.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel className="btn-paper">Cancelar</AlertDialogCancel>
+                <AlertDialogAction 
+                  onClick={handleRestart}
+                  className="btn-paper bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                >
+                  Sí, reiniciar
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </motion.div>
       </div>
     </div>
