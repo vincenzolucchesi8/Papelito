@@ -10,12 +10,26 @@ import { toast } from 'sonner';
 
 const TurnScreen = () => {
   const { gameState, updateGameState, markPapelitoCorrecto, nextTurn } = useGame();
-  const [timeLeft, setTimeLeft] = useState(gameState.config.turnTime);
+  
+  // Inicializar con tiempo guardado si existe (continuación de ronda anterior)
+  const savedTime = sessionStorage.getItem('startWithTime');
+  const initialTime = savedTime && parseInt(savedTime) > 0 
+    ? parseInt(savedTime) 
+    : gameState.config.turnTime;
+  
+  const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(false);
   const [currentPapelitoIndex, setCurrentPapelitoIndex] = useState(0);
   const [isRevealing, setIsRevealing] = useState(false);
   const [turnEnded, setTurnEnded] = useState(false);
   const revealButtonRef = useRef(null);
+  
+  // Limpiar tiempo guardado después de usarlo
+  useEffect(() => {
+    if (savedTime) {
+      sessionStorage.removeItem('startWithTime');
+    }
+  }, []);
 
   const currentPool = gameState.roundPools[gameState.currentRound] || [];
   const currentPapelito = currentPool[currentPapelitoIndex];
