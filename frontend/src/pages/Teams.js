@@ -11,6 +11,10 @@ const Teams = () => {
   const { gameState, updateGameState } = useGame();
   const [assignmentMode, setAssignmentMode] = useState(null);
   const [teams, setTeams] = useState({ A: [], B: [] });
+  const [teamNames, setTeamNames] = useState({ 
+    A: gameState.teamNames?.A || 'Equipo A', 
+    B: gameState.teamNames?.B || 'Equipo B' 
+  });
 
   const autoAssignTeams = () => {
     const shuffled = [...gameState.players].sort(() => Math.random() - 0.5);
