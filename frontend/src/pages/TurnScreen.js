@@ -285,20 +285,28 @@ const TurnScreen = () => {
 
           {isRunning && !turnEnded && (
             <>
-              {/* Hold to reveal button */}
-              <Button
-                onMouseDown={() => setIsRevealing(true)}
-                onMouseUp={() => setIsRevealing(false)}
-                onMouseLeave={() => setIsRevealing(false)}
-                onTouchStart={() => setIsRevealing(true)}
-                onTouchEnd={() => setIsRevealing(false)}
-                size="lg"
-                variant="outline"
-                className="w-full btn-paper border-2 border-primary font-bold h-16 text-base active:bg-primary/10"
-              >
-                <Eye className="w-5 h-5 mr-2" />
-                {isRevealing ? 'Mostrando...' : 'Mantener para Ver'}
-              </Button>
+              {/* Hold to reveal button - Fixed version */}
+              <div className="relative">
+                <Button
+                  ref={revealButtonRef}
+                  onMouseDown={handleRevealPress}
+                  onTouchStart={(e) => {
+                    e.preventDefault();
+                    handleRevealPress();
+                  }}
+                  size="lg"
+                  variant="outline"
+                  className={`w-full btn-paper border-2 font-bold h-16 text-base transition-colors ${
+                    isRevealing 
+                      ? 'bg-primary/20 border-primary' 
+                      : 'border-primary hover:bg-primary/5'
+                  }`}
+                  style={{ userSelect: 'none', touchAction: 'none' }}
+                >
+                  <Eye className="w-5 h-5 mr-2" />
+                  {isRevealing ? '👁️ Mostrando...' : '🔒 Mantener para Ver'}
+                </Button>
+              </div>
               
               <Button
                 onClick={handleAdivinado}
