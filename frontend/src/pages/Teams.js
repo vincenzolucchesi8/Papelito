@@ -67,6 +67,7 @@ const Teams = () => {
 
     updateGameState({
       teams,
+      teamNames, // Guardar nombres personalizados
       screen: 'papelitos-input',
     });
   };
