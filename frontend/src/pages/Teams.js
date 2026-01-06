@@ -126,6 +126,47 @@ const Teams = () => {
           </motion.div>
         )}
 
+        {/* Team Names Input */}
+        {assignmentMode && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+          >
+            <Card className="paper-card border-2 border-primary/30">
+              <CardHeader>
+                <CardTitle className="text-base">Nombres de Equipos (opcional)</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 relative z-10">
+                <div className="space-y-2">
+                  <Label htmlFor="teamA" className="text-sm font-medium">
+                    Nombre Equipo 1
+                  </Label>
+                  <Input
+                    id="teamA"
+                    placeholder="Equipo A"
+                    value={teamNames.A}
+                    onChange={(e) => setTeamNames({ ...teamNames, A: e.target.value || 'Equipo A' })}
+                    className="border-2"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="teamB" className="text-sm font-medium">
+                    Nombre Equipo 2
+                  </Label>
+                  <Input
+                    id="teamB"
+                    placeholder="Equipo B"
+                    value={teamNames.B}
+                    onChange={(e) => setTeamNames({ ...teamNames, B: e.target.value || 'Equipo B' })}
+                    className="border-2"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+
         {/* Manual Assignment - Unassigned Players */}
         {assignmentMode === 'manual' && unassignedPlayers.length > 0 && (
           <motion.div
