@@ -144,7 +144,7 @@ const FinalScreen = () => {
                     }`}
                   >
                     <div className="text-sm text-muted-foreground font-semibold mb-2">
-                      Equipo A
+                      {gameState.teamNames?.A || 'Equipo A'}
                     </div>
                     <div className="text-4xl font-bold text-primary">
                       {gameState.scores.A}
@@ -158,7 +158,7 @@ const FinalScreen = () => {
                     }`}
                   >
                     <div className="text-sm text-muted-foreground font-semibold mb-2">
-                      Equipo B
+                      {gameState.teamNames?.B || 'Equipo B'}
                     </div>
                     <div className="text-4xl font-bold text-accent">
                       {gameState.scores.B}
