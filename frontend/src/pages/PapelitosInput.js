@@ -13,6 +13,7 @@ const PapelitosInput = () => {
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const [allPapelitos, setAllPapelitos] = useState([]);
   const [currentPapelitos, setCurrentPapelitos] = useState([]);
+  const [showHandoff, setShowHandoff] = useState(true); // Pantalla de privacidad
   const [formData, setFormData] = useState({
     respuesta: '',
     restriccion1: '',
