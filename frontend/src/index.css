@@ -160,27 +160,51 @@ code {
         animation: pulse-glow 1s ease-in-out infinite;
     }
     
-    /* Paper shuffle animation */
+    /* Paper shuffle animation - more realistic */
     @keyframes shuffle {
         0% { transform: translateX(0) rotate(0deg); }
-        25% { transform: translateX(-10px) rotate(-3deg); }
-        50% { transform: translateX(10px) rotate(3deg); }
-        75% { transform: translateX(-5px) rotate(-1deg); }
-        100% { transform: translateX(0) rotate(0deg); }
+        20% { transform: translateX(-12px) rotate(-4deg) translateY(-2px); }
+        40% { transform: translateX(15px) rotate(5deg) translateY(2px); }
+        60% { transform: translateX(-8px) rotate(-2deg) translateY(-1px); }
+        80% { transform: translateX(5px) rotate(2deg) translateY(1px); }
+        100% { transform: translateX(0) rotate(0deg) translateY(0); }
     }
     
     .paper-shuffle {
-        animation: shuffle 0.5s ease-in-out;
+        animation: shuffle 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
     
-    /* Paper flip animation */
+    /* Paper flip animation - more realistic flip */
     @keyframes flip {
-        0% { transform: rotateY(0deg); }
-        100% { transform: rotateY(180deg); }
+        0% { transform: rotateY(0deg) scale(1); }
+        50% { transform: rotateY(90deg) scale(0.95); }
+        100% { transform: rotateY(180deg) scale(1); }
     }
     
     .paper-flip {
-        animation: flip 0.6s ease-in-out;
+        animation: flip 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    /* Crumple entrance animation */
+    @keyframes crumple-in {
+        0% { 
+            transform: scale(0.3) rotate(-15deg);
+            opacity: 0;
+            filter: brightness(1.2);
+        }
+        60% { 
+            transform: scale(1.05) rotate(2deg);
+            filter: brightness(1.05);
+        }
+        100% { 
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+            filter: brightness(1);
+        }
+    }
+    
+    .paper-crumple-in {
+        animation: crumple-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
 }
 
