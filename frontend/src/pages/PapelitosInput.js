@@ -297,9 +297,11 @@ const PapelitosInput = () => {
                     className="p-3 bg-secondary rounded-lg border border-border"
                   >
                     <div className="font-semibold text-sm">{papelito.respuesta}</div>
-                    <div className="text-xs text-destructive mt-1">
-                      Prohibido: {papelito.restricciones.join(', ')}
-                    </div>
+                    {papelito.restricciones.length > 0 && (
+                      <div className="text-xs text-destructive mt-1">
+                        Prohibido: {papelito.restricciones.join(', ')}
+                      </div>
+                    )}
                   </div>
                 ))}
               </CardContent>
