@@ -149,6 +149,11 @@ const RoundEnd = () => {
                     <ArrowRight className="w-4 h-4 text-primary" />
                     <span className="text-sm font-medium">Próxima: Ronda {gameState.currentRound + 1}</span>
                   </div>
+                  {timeRemaining && (
+                    <p className="text-xs text-primary font-semibold">
+                      ⏱️ Tiempo bonus: {timeRemaining}s restantes
+                    </p>
+                  )}
                 </motion.div>
               )}
             </CardContent>
