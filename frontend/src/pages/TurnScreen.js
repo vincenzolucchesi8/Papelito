@@ -104,11 +104,27 @@ const TurnScreen = () => {
     const updatedPool = currentPool.filter((p) => p.id !== currentPapelito.id);
     
     if (updatedPool.length === 0) {
-      // Round completed
-      toast.success('¡Ronda completada!');
-      updateGameState({ screen: 'round-end' });
+      // Pool vacío - verificar si hay más rondas
+      if (gameState.currentRound < 3) {
+        // Hay más rondas - continuar con tiempo restante
+        toast.success(`¡Ronda ${gameState.currentRound} completada! Continuando...`);
+        
+        // Avanzar a siguiente ronda automáticamente
+        setTimeout(() => {
+          updateGameState({ 
+            currentRound: gameState.currentRound + 1,
+            screen: 'round-start' 
+          });
+        }, 1500);
+      } else {
+        // Última ronda completada
+        toast.success('¡Todas las rondas completadas!');
+        setTimeout(() => {
+          updateGameState({ screen: 'final' });
+        }, 1500);
+      }
     } else {
-      // Next papelito
+      // Siguiente papelito
       setCurrentPapelitoIndex(0);
       setIsRevealing(false);
       toast.success('¡Correcto! +1 punto');
