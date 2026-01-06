@@ -59,6 +59,10 @@ const RoundStart = () => {
 
   const handleStart = () => {
     startNewRound();
+    // Pasar el tiempo restante si existe
+    if (timeRemaining) {
+      sessionStorage.setItem('startWithTime', timeRemaining.toString());
+    }
     updateGameState({ screen: 'turn' });
   };
 
