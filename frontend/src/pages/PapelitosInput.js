@@ -54,6 +54,11 @@ const PapelitosInput = () => {
   };
 
   const addPapelito = () => {
+    if (currentPapelitos.length >= papelitosNeeded) {
+      toast.error(`Ya alcanzaste el límite de ${papelitosNeeded} papelitos`);
+      return;
+    }
+    
     if (!validatePapelito()) return;
 
     const newPapelito = {
