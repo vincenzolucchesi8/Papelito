@@ -8,15 +8,10 @@ import { Trophy, TrendingUp, ArrowRight } from 'lucide-react';
 
 const RoundEnd = () => {
   const { gameState, updateGameState, nextRound } = useGame();
-  const [timeRemaining, setTimeRemaining] = useState(null);
-
+  
   // Detectar si venimos de una ronda anterior con tiempo restante
-  useEffect(() => {
-    const savedTime = sessionStorage.getItem('remainingTime');
-    if (savedTime && parseInt(savedTime) > 0) {
-      setTimeRemaining(parseInt(savedTime));
-    }
-  }, []);
+  const savedTime = sessionStorage.getItem('remainingTime');
+  const timeRemaining = savedTime && parseInt(savedTime) > 0 ? parseInt(savedTime) : null;
 
   const hasMoreRounds = gameState.currentRound < 3;
   const leadingTeam = gameState.scores.A > gameState.scores.B ? 'A' : gameState.scores.B > gameState.scores.A ? 'B' : null;
