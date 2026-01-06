@@ -4,7 +4,8 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
 import { useGame } from '../context/GameContext';
-import { FileText, HelpCircle, Users, Clock, Zap } from 'lucide-react';
+import { HelpCircle, Users, Clock, Zap } from 'lucide-react';
+import { CrumpledPaperIcon } from '../components/CrumpledPaperIcon';
 
 const Home = () => {
   const { updateGameState, resetGame } = useGame();
