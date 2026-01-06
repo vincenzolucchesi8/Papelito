@@ -251,21 +251,37 @@ const TurnScreen = () => {
               onClick={handleStart}
               size="lg"
               className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-16 text-lg"
-              disabled={!revealed}
             >
-              Iniciar Cronometro
+              Iniciar Cronómetro
             </Button>
           )}
 
-          {isRunning && !turnEnded && revealed && (
-            <Button
-              onClick={handleAdivinado}
-              size="lg"
-              className="w-full btn-paper bg-success hover:bg-success/90 text-white font-bold h-20 text-xl"
-            >
-              <CheckCircle2 className="w-6 h-6 mr-2" />
-              ADIVINADO (+1)
-            </Button>
+          {isRunning && !turnEnded && (
+            <>
+              {/* Hold to reveal button */}
+              <Button
+                onMouseDown={() => setIsRevealing(true)}
+                onMouseUp={() => setIsRevealing(false)}
+                onMouseLeave={() => setIsRevealing(false)}
+                onTouchStart={() => setIsRevealing(true)}
+                onTouchEnd={() => setIsRevealing(false)}
+                size="lg"
+                variant="outline"
+                className="w-full btn-paper border-2 border-primary font-bold h-16 text-base active:bg-primary/10"
+              >
+                <Eye className="w-5 h-5 mr-2" />
+                {isRevealing ? 'Mostrando...' : 'Mantener para Ver'}
+              </Button>
+              
+              <Button
+                onClick={handleAdivinado}
+                size="lg"
+                className="w-full btn-paper bg-success hover:bg-success/90 text-white font-bold h-20 text-xl"
+              >
+                <CheckCircle2 className="w-6 h-6 mr-2" />
+                ADIVINADO (+1)
+              </Button>
+            </>
           )}
 
           {turnEnded && (
