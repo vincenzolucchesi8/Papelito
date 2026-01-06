@@ -5,8 +5,19 @@ import { Card, CardContent, CardHeader } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Progress } from '../components/ui/progress';
 import { useGame } from '../context/GameContext';
-import { Clock, CheckCircle2, Eye, EyeOff, AlertTriangle } from 'lucide-react';
+import { Clock, CheckCircle2, Eye, EyeOff, AlertTriangle, RotateCcw } from 'lucide-react';
 import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '../components/ui/alert-dialog';
 
 const TurnScreen = () => {
   const { gameState, updateGameState, markPapelitoCorrecto, nextTurn } = useGame();
