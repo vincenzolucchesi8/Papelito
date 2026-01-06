@@ -18,7 +18,7 @@ import {
 } from '../components/ui/alert-dialog';
 
 const RoundEnd = () => {
-  const { gameState, updateGameState, nextRound } = useGame();
+  const { gameState, updateGameState, nextRound, resetGame } = useGame();
   
   // Detectar si venimos de una ronda anterior con tiempo restante
   const savedTime = sessionStorage.getItem('remainingTime');
@@ -35,6 +35,11 @@ const RoundEnd = () => {
     } else {
       updateGameState({ screen: 'final' });
     }
+  };
+
+  const handleRestart = () => {
+    sessionStorage.clear();
+    resetGame();
   };
 
   return (
