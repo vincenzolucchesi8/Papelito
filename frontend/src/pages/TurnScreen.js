@@ -201,6 +201,11 @@ const TurnScreen = () => {
     });
   };
 
+  const handleEndTurn = () => {
+    nextTurn();
+    updateGameState({ screen: 'round-start' });
+  };
+
   const handleRestart = () => {
     sessionStorage.clear();
     resetGame();
