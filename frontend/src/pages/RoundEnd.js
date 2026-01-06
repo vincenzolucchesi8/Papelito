@@ -133,7 +133,7 @@ const RoundEnd = () => {
               >
                 {leadingTeam ? (
                   <p className="text-lg font-medium">
-                    Equipo {leadingTeam} va{' '}
+                    {gameState.teamNames?.[leadingTeam] || `Equipo ${leadingTeam}`} va{' '}
                     <span
                       className={leadingTeam === 'A' ? 'text-primary' : 'text-accent'}
                     >
