@@ -227,7 +227,9 @@ const TurnScreen = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Clock className={`w-5 h-5 ${isUrgent ? 'text-destructive' : 'text-primary'}`} />
-                  <span className="text-sm font-medium text-muted-foreground">Tiempo</span>
+                  <span className="text-sm font-medium text-muted-foreground">
+                    Tiempo {initialTime > gameState.config.turnTime ? '⭐ BONUS' : ''}
+                  </span>
                 </div>
                 <div
                   className={`text-4xl font-bold ${
@@ -242,6 +244,11 @@ const TurnScreen = () => {
                 className="h-3"
                 indicatorClassName={isUrgent ? 'bg-destructive' : 'bg-primary'}
               />
+              {initialTime > gameState.config.turnTime && (
+                <p className="text-xs text-center text-primary font-semibold">
+                  ¡Continuando desde ronda anterior!
+                </p>
+              )}
             </CardContent>
           </Card>
         </motion.div>
