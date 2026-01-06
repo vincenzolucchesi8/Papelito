@@ -222,7 +222,7 @@ const Teams = () => {
             <Card className="paper-card border-2 border-primary">
               <CardHeader className="bg-primary/10">
                 <CardTitle className="flex items-center justify-between">
-                  <span>Equipo A</span>
+                  <span>{teamNames.A}</span>
                   <Badge variant="secondary" className="bg-primary text-primary-foreground">
                     {teams.A.length}
                   </Badge>
