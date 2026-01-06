@@ -80,14 +80,24 @@ code {
 }
 
 @layer components {
-    /* Crumpled paper card effect */
+    /* Crumpled paper card effect - Enhanced realism */
     .paper-card {
-        background: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(40 28% 96%) 50%, hsl(40 30% 94%) 100%);
-        box-shadow: var(--shadow-paper);
+        background: 
+            linear-gradient(145deg, hsl(var(--card)) 0%, hsl(40 28% 96%) 30%, hsl(40 30% 94%) 60%, hsl(42 25% 92%) 100%);
+        box-shadow: 
+            var(--shadow-paper),
+            inset 1px 1px 3px hsl(0 0% 100% / 0.5),
+            inset -1px -1px 3px hsl(0 0% 0% / 0.05);
         position: relative;
         clip-path: polygon(
-            0.5% 0%, 2% 1.5%, 98% 0.5%, 99.5% 2%,
-            100% 98%, 98.5% 99%, 2% 99.5%, 0% 97.5%
+            0.3% 0.8%, 1.5% 0.2%, 4% 1%, 8% 0.5%, 15% 1.2%, 25% 0.6%, 35% 0.9%, 
+            50% 0.4%, 65% 0.8%, 75% 0.5%, 85% 1%, 92% 0.7%, 96% 1.2%, 98.5% 0.5%, 99.7% 1.5%,
+            99.5% 8%, 100% 15%, 99.3% 25%, 99.8% 35%, 99.5% 50%, 99.8% 65%, 99.4% 75%, 
+            99.8% 85%, 99.2% 92%, 99.6% 96%, 99% 98.5%, 99.5% 99.7%,
+            92% 99.5%, 85% 99.8%, 75% 99.3%, 65% 99.6%, 50% 99.4%, 35% 99.7%, 
+            25% 99.2%, 15% 99.5%, 8% 99.1%, 4% 99.6%, 1.5% 99.2%, 0.5% 98.8%,
+            0.7% 92%, 0.3% 85%, 0.8% 75%, 0.4% 65%, 0.7% 50%, 0.5% 35%, 
+            0.9% 25%, 0.4% 15%, 0.7% 8%, 0.5% 4%
         );
     }
     
@@ -99,9 +109,9 @@ code {
         right: 0;
         bottom: 0;
         background-image: var(--paper-texture-crumpled);
-        opacity: 0.8;
+        opacity: 0.9;
         pointer-events: none;
-        border-radius: inherit;
+        mix-blend-mode: multiply;
     }
     
     .paper-card::after {
@@ -112,11 +122,13 @@ code {
         right: 0;
         bottom: 0;
         background: 
-            radial-gradient(circle at 20% 30%, hsl(0 0% 100% / 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, hsl(0 0% 0% / 0.08) 0%, transparent 50%),
-            radial-gradient(circle at 40% 80%, hsl(0 0% 100% / 0.1) 0%, transparent 40%);
+            radial-gradient(ellipse at 15% 25%, hsl(0 0% 100% / 0.25) 0%, transparent 40%),
+            radial-gradient(ellipse at 85% 30%, hsl(0 0% 0% / 0.12) 0%, transparent 45%),
+            radial-gradient(ellipse at 30% 75%, hsl(0 0% 100% / 0.18) 0%, transparent 35%),
+            radial-gradient(ellipse at 70% 80%, hsl(0 0% 0% / 0.08) 0%, transparent 40%),
+            radial-gradient(ellipse at 50% 50%, hsl(0 0% 0% / 0.03) 0%, transparent 60%);
         pointer-events: none;
-        border-radius: inherit;
+        mix-blend-mode: overlay;
     }
     
     /* Elevated crumpled paper effect */
@@ -124,17 +136,23 @@ code {
         box-shadow: var(--shadow-elevated);
         transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
         clip-path: polygon(
-            1% 0.5%, 3% 2%, 97% 1%, 99% 3%,
-            99.5% 97%, 97% 99%, 3% 98.5%, 0.5% 96%
+            0.5% 1%, 2% 0.3%, 5% 1.2%, 10% 0.6%, 18% 1.1%, 28% 0.5%, 40% 0.9%, 
+            55% 0.4%, 70% 0.8%, 82% 0.6%, 90% 1.1%, 95% 0.7%, 98% 1.3%, 99.5% 0.6%,
+            99.3% 10%, 99.8% 20%, 99.4% 35%, 99.7% 50%, 99.3% 65%, 99.7% 80%, 
+            99.2% 90%, 99.6% 95%, 98.7% 99.5%,
+            90% 99.3%, 80% 99.7%, 65% 99.4%, 50% 99.8%, 35% 99.3%, 20% 99.6%, 
+            10% 99.2%, 5% 99.5%, 1.3% 98.8%, 0.4% 99.4%,
+            0.6% 90%, 0.3% 80%, 0.8% 65%, 0.4% 50%, 0.7% 35%, 0.5% 20%, 0.8% 10%
         );
     }
     
     .paper-elevated:hover {
-        transform: translateY(-3px) rotate(0.5deg);
-        box-shadow: 0 15px 35px -8px hsl(var(--primary) / 0.35), 
-                    0 10px 15px -5px hsl(var(--primary) / 0.25),
-                    inset 0 2px 0 hsl(0 0% 100% / 0.15),
-                    inset -2px -2px 10px hsl(0 0% 0% / 0.08);
+        transform: translateY(-4px) rotate(0.8deg);
+        box-shadow: 
+            0 18px 40px -10px hsl(var(--primary) / 0.4), 
+            0 12px 18px -6px hsl(var(--primary) / 0.3),
+            inset 0 2px 0 hsl(0 0% 100% / 0.2),
+            inset -2px -2px 12px hsl(0 0% 0% / 0.1);
     }
     
     /* Button hover effects - paper style */
