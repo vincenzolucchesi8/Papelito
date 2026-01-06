@@ -127,6 +127,43 @@ const PapelitosInput = () => {
       ? gameState.players[currentPlayerIndex + 1]
       : null;
 
+  // Pantalla de privacidad
+  if (showHandoff) {
+    return (
+      <div className="min-h-screen p-4 py-8 flex items-center justify-center bg-muted">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="max-w-md w-full"
+        >
+          <Card className="paper-card border-2 border-primary">
+            <CardContent className="p-8 text-center space-y-6 relative z-10">
+              <div className="text-6xl mb-4">🔒</div>
+              <h2 className="text-2xl font-bold text-foreground">
+                Turno de: {currentPlayer}
+              </h2>
+              <p className="text-muted-foreground">
+                Asegúrate de que solo tú puedas ver la pantalla
+              </p>
+              <div className="pt-4">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Debes escribir <span className="font-bold text-primary">{papelitosNeeded}</span> papelitos
+                </p>
+              </div>
+              <Button
+                onClick={() => setShowHandoff(false)}
+                size="lg"
+                className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-14"
+              >
+                Estoy Listo, Comenzar
+              </Button>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen p-4 py-8">
       <div className="max-w-2xl mx-auto space-y-6">
