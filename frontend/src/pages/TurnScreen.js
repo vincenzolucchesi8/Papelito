@@ -179,6 +179,11 @@ const TurnScreen = () => {
     updateGameState({ screen: 'round-start' });
   };
 
+  const handleRestart = () => {
+    sessionStorage.clear();
+    resetGame();
+  };
+
   if (!currentPapelito) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
