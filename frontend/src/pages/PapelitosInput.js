@@ -95,6 +95,24 @@ const PapelitosInput = () => {
 
     if (currentPlayerIndex < gameState.players.length - 1) {
       setCurrentPlayerIndex(currentPlayerIndex + 1);
+      setShowHandoff(true); // Mostrar pantalla de privacidad
+    } else {
+      // All players done
+      updateGameState({
+        papelitos: updatedAllPapelitos,
+        screen: 'round-start',
+      });
+    }
+  };
+      return;
+    }
+
+    const updatedAllPapelitos = [...allPapelitos, ...currentPapelitos];
+    setAllPapelitos(updatedAllPapelitos);
+    setCurrentPapelitos([]);
+
+    if (currentPlayerIndex < gameState.players.length - 1) {
+      setCurrentPlayerIndex(currentPlayerIndex + 1);
     } else {
       // All players done
       updateGameState({
