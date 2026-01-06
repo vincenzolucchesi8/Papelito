@@ -208,10 +208,14 @@ const PapelitosInput = () => {
 
               <Button
                 onClick={addPapelito}
+                disabled={currentPapelitos.length >= papelitosNeeded}
                 size="lg"
-                className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-12 mt-4"
+                className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-12 mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Agregar Papelito
+                {currentPapelitos.length >= papelitosNeeded 
+                  ? `Límite Alcanzado (${papelitosNeeded}/${papelitosNeeded})`
+                  : `Agregar Papelito (${currentPapelitos.length}/${papelitosNeeded})`
+                }
               </Button>
             </CardContent>
           </Card>
