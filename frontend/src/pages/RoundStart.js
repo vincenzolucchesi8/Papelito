@@ -149,11 +149,20 @@ const RoundStart = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7 }}
-                  className="mt-4 p-4 bg-primary/10 rounded-lg border-2 border-primary/30"
+                  className="mt-4 space-y-2"
                 >
-                  <p className="text-sm font-semibold text-primary">
-                    💡 Mantén presionado el botón para ver el papelito durante tu turno
-                  </p>
+                  <div className="p-4 bg-primary/10 rounded-lg border-2 border-primary/30">
+                    <p className="text-sm font-semibold text-primary">
+                      💡 Mantén presionado el botón para ver el papelito durante tu turno
+                    </p>
+                  </div>
+                  {!gameState.config.easyMode && (
+                    <div className="p-4 bg-destructive/10 rounded-lg border-2 border-destructive/30">
+                      <p className="text-sm font-semibold text-destructive">
+                        ⚠️ Si mencionas palabra prohibida: presiona "FALTA" para ceder el turno
+                      </p>
+                    </div>
+                  )}
                 </motion.div>
               </div>
 
