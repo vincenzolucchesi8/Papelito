@@ -265,7 +265,7 @@ const Teams = () => {
             <Card className="paper-card border-2 border-accent">
               <CardHeader className="bg-accent/10">
                 <CardTitle className="flex items-center justify-between">
-                  <span>Equipo B</span>
+                  <span>{teamNames.B}</span>
                   <Badge variant="secondary" className="bg-accent text-accent-foreground">
                     {teams.B.length}
                   </Badge>
