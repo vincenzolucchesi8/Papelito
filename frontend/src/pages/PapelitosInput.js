@@ -230,30 +230,40 @@ const PapelitosInput = () => {
               </div>
 
               {/* Restricciones */}
-              <div className="space-y-3 pt-2">
-                <Label className="text-base font-semibold text-destructive">
-                  Palabras Prohibidas (3 restricciones)
-                </Label>
-                <p className="text-xs text-muted-foreground">
-                  No se puede mencionar la respuesta ni estas palabras
-                </p>
-                {[1, 2, 3].map((num) => (
-                  <div key={num} className="space-y-1">
-                    <Label htmlFor={`restriccion${num}`} className="text-sm">
-                      Restricción {num}
-                    </Label>
-                    <Input
-                      id={`restriccion${num}`}
-                      placeholder={`Palabra prohibida ${num}`}
-                      value={formData[`restriccion${num}`]}
-                      onChange={(e) =>
-                        setFormData({ ...formData, [`restriccion${num}`]: e.target.value })
-                      }
-                      className="border-2"
-                    />
-                  </div>
-                ))}
-              </div>
+              {!gameState.config.easyMode && (
+                <div className="space-y-3 pt-2">
+                  <Label className="text-base font-semibold text-destructive">
+                    Palabras Prohibidas (3 restricciones)
+                  </Label>
+                  <p className="text-xs text-muted-foreground">
+                    No se puede mencionar la respuesta ni estas palabras
+                  </p>
+                  {[1, 2, 3].map((num) => (
+                    <div key={num} className="space-y-1">
+                      <Label htmlFor={`restriccion${num}`} className="text-sm">
+                        Restricción {num}
+                      </Label>
+                      <Input
+                        id={`restriccion${num}`}
+                        placeholder={`Palabra prohibida ${num}`}
+                        value={formData[`restriccion${num}`]}
+                        onChange={(e) =>
+                          setFormData({ ...formData, [`restriccion${num}`]: e.target.value })
+                        }
+                        className="border-2"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {gameState.config.easyMode && (
+                <div className="p-3 bg-success/10 rounded-lg border border-success/30">
+                  <p className="text-sm text-success font-medium text-center">
+                    😊 Modo Fácil: Solo escribe la respuesta
+                  </p>
+                </div>
+              )}
 
               <Button
                 onClick={addPapelito}
