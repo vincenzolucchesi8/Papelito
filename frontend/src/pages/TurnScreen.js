@@ -318,24 +318,35 @@ const TurnScreen = () => {
                     </div>
 
                     {/* Restricciones */}
-                    <div className="space-y-3">
-                      <Label className="text-sm font-semibold uppercase tracking-wide flex items-center gap-2 text-destructive">
-                        <AlertTriangle className="w-4 h-4" />
-                        Palabras Prohibidas
-                      </Label>
-                      <div className="space-y-2">
-                        {currentPapelito.restricciones.map((restriccion, index) => (
-                          <div
-                            key={index}
-                            className="p-3 bg-destructive/10 rounded-lg border border-destructive/30"
-                          >
-                            <p className="text-base font-semibold text-destructive text-center">
-                              {restriccion}
-                            </p>
-                          </div>
-                        ))}
+                    {currentPapelito.restricciones && currentPapelito.restricciones.length > 0 && (
+                      <div className="space-y-3">
+                        <Label className="text-sm font-semibold uppercase tracking-wide flex items-center gap-2 text-destructive">
+                          <AlertTriangle className="w-4 h-4" />
+                          Palabras Prohibidas
+                        </Label>
+                        <div className="space-y-2">
+                          {currentPapelito.restricciones.map((restriccion, index) => (
+                            <div
+                              key={index}
+                              className="p-3 bg-destructive/10 rounded-lg border border-destructive/30"
+                            >
+                              <p className="text-base font-semibold text-destructive text-center">
+                                {restriccion}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
+
+                    {/* Easy Mode Indicator */}
+                    {(!currentPapelito.restricciones || currentPapelito.restricciones.length === 0) && (
+                      <div className="p-4 bg-success/10 rounded-lg border border-success/30">
+                        <p className="text-sm text-success font-semibold text-center">
+                          😊 Modo Fácil - Sin restricciones
+                        </p>
+                      </div>
+                    )}
                   </>
                 )}
               </CardContent>
