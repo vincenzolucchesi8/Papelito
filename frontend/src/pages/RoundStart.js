@@ -8,6 +8,15 @@ import { MessageCircle, Hand, Zap } from 'lucide-react';
 
 const RoundStart = () => {
   const { gameState, updateGameState, startNewRound } = useGame();
+  const [timeRemaining, setTimeRemaining] = useState(null);
+
+  // Detectar si venimos de una ronda anterior con tiempo restante
+  useEffect(() => {
+    const savedTime = sessionStorage.getItem('remainingTime');
+    if (savedTime && parseInt(savedTime) > 0) {
+      setTimeRemaining(parseInt(savedTime));
+    }
+  }, []);
 
   const roundRules = {
     1: {
