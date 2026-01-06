@@ -50,13 +50,16 @@ export const GameProvider = ({ children }) => {
   };
 
   const startNewRound = () => {
-    // Create pool for new round with all papelitos not guessed yet in this round
-    const pool = [...gameState.papelitos].sort(() => Math.random() - 0.5);
+    // Crear pool para nueva ronda con todos los papelitos mezclados aleatoriamente
+    const shuffledPool = [...gameState.papelitos]
+      .sort(() => Math.random() - 0.5)
+      .sort(() => Math.random() - 0.5); // Mezclar dos veces para mejor aleatoriedad
+    
     setGameState((prev) => ({
       ...prev,
       roundPools: {
         ...prev.roundPools,
-        [prev.currentRound]: pool,
+        [prev.currentRound]: shuffledPool,
       },
       guessedInRound: [],
     }));
