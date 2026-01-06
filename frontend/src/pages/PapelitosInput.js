@@ -28,27 +28,35 @@ const PapelitosInput = () => {
   const validatePapelito = () => {
     const { respuesta, restriccion1, restriccion2, restriccion3 } = formData;
 
-    // Check if all fields are filled
-    if (!respuesta.trim() || !restriccion1.trim() || !restriccion2.trim() || !restriccion3.trim()) {
-      toast.error('Completa todos los campos');
+    // Check if respuesta is filled
+    if (!respuesta.trim()) {
+      toast.error('Debes escribir una respuesta');
       return false;
     }
 
-    const respuestaLower = respuesta.trim().toLowerCase();
-    const r1 = restriccion1.trim().toLowerCase();
-    const r2 = restriccion2.trim().toLowerCase();
-    const r3 = restriccion3.trim().toLowerCase();
+    // Si no es easy mode, validar restricciones
+    if (!gameState.config.easyMode) {
+      if (!restriccion1.trim() || !restriccion2.trim() || !restriccion3.trim()) {
+        toast.error('Completa todas las restricciones');
+        return false;
+      }
 
-    // Check for duplicate restrictions
-    if (r1 === r2 || r1 === r3 || r2 === r3) {
-      toast.error('Las restricciones no pueden repetirse');
-      return false;
-    }
+      const respuestaLower = respuesta.trim().toLowerCase();
+      const r1 = restriccion1.trim().toLowerCase();
+      const r2 = restriccion2.trim().toLowerCase();
+      const r3 = restriccion3.trim().toLowerCase();
 
-    // Check if restrictions match respuesta
-    if (r1 === respuestaLower || r2 === respuestaLower || r3 === respuestaLower) {
-      toast.error('Las restricciones no pueden ser iguales a la respuesta');
-      return false;
+      // Check for duplicate restrictions
+      if (r1 === r2 || r1 === r3 || r2 === r3) {
+        toast.error('Las restricciones no pueden repetirse');
+        return false;
+      }
+
+      // Check if restrictions match respuesta
+      if (r1 === respuestaLower || r2 === respuestaLower || r3 === respuestaLower) {
+        toast.error('Las restricciones no pueden ser iguales a la respuesta');
+        return false;
+      }
     }
 
     return true;
