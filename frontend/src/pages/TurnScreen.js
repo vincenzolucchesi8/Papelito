@@ -15,6 +15,7 @@ const TurnScreen = () => {
   const [currentPapelitoIndex, setCurrentPapelitoIndex] = useState(0);
   const [isRevealing, setIsRevealing] = useState(false);
   const [turnEnded, setTurnEnded] = useState(false);
+  const revealButtonRef = useRef(null);
 
   const currentPool = gameState.roundPools[gameState.currentRound] || [];
   const currentPapelito = currentPool[currentPapelitoIndex];
