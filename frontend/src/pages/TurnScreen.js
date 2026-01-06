@@ -186,28 +186,23 @@ const TurnScreen = () => {
                   <Badge variant="outline" className="border-primary text-primary font-semibold">
                     Papelito #{currentPool.length - currentPapelitoIndex}
                   </Badge>
-                  {!revealed ? (
-                    <Button
-                      onClick={() => setRevealed(true)}
-                      size="sm"
-                      variant="outline"
-                      className="btn-paper border-2"
-                    >
-                      <EyeOff className="w-4 h-4 mr-1" />
-                      Revelar
-                    </Button>
-                  ) : (
-                    <Eye className="w-5 h-5 text-primary" />
-                  )}
+                  <div className="text-xs text-muted-foreground font-medium">
+                    {isRevealing ? '👁️ Visible' : '🔒 Oculto'}
+                  </div>
                 </div>
               </CardHeader>
               <CardContent className="space-y-6 relative z-10">
-                {!revealed ? (
-                  <div className="py-12 text-center">
-                    <EyeOff className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                    <p className="text-lg text-muted-foreground">
-                      Presiona "Revelar" cuando estés listo
-                    </p>
+                {!isRevealing ? (
+                  <div className="py-16 text-center space-y-4">
+                    <EyeOff className="w-20 h-20 mx-auto text-muted-foreground opacity-50" />
+                    <div className="space-y-2">
+                      <p className="text-lg font-semibold text-foreground">
+                        Mantén presionado el botón
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        para ver la respuesta y restricciones
+                      </p>
+                    </div>
                   </div>
                 ) : (
                   <>
