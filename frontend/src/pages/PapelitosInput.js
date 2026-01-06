@@ -104,23 +104,6 @@ const PapelitosInput = () => {
       });
     }
   };
-      return;
-    }
-
-    const updatedAllPapelitos = [...allPapelitos, ...currentPapelitos];
-    setAllPapelitos(updatedAllPapelitos);
-    setCurrentPapelitos([]);
-
-    if (currentPlayerIndex < gameState.players.length - 1) {
-      setCurrentPlayerIndex(currentPlayerIndex + 1);
-    } else {
-      // All players done
-      updateGameState({
-        papelitos: updatedAllPapelitos,
-        screen: 'round-start',
-      });
-    }
-  };
 
   const nextPlayerName =
     currentPlayerIndex < gameState.players.length - 1
