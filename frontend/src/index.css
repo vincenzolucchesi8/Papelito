@@ -137,13 +137,32 @@ code {
                     inset -2px -2px 10px hsl(0 0% 0% / 0.08);
     }
     
-    /* Button hover effects */
+    /* Button hover effects - paper style */
     .btn-paper {
         transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+        clip-path: polygon(
+            1% 0%, 99% 0.5%, 100% 99%, 0.5% 99.5%
+        );
+        position: relative;
+    }
+    
+    .btn-paper::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: var(--paper-texture-crumpled);
+        opacity: 0.1;
+        pointer-events: none;
+        border-radius: inherit;
     }
     
     .btn-paper:active {
-        transform: scale(0.97);
+        transform: scale(0.97) rotate(0.5deg);
+    }
+    
+    .btn-paper:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px -2px hsl(var(--primary) / 0.3);
     }
     
     /* Timer pulse animation */
