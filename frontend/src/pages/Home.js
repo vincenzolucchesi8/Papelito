@@ -147,7 +147,8 @@ const Home = () => {
                           <li>• El reloj cuenta el tiempo del turno</li>
                           <li>• <span className="font-medium text-foreground">Mantén presionado</span> el botón para ver el papelito</li>
                           <li>• Da pistas según la ronda actual</li>
-                          <li>• NO puedes decir la respuesta ni las restricciones</li>
+                          <li>• <span className="font-medium text-destructive">NO puedes decir la respuesta</span></li>
+                          <li>• En modo normal: tampoco las 3 restricciones</li>
                           <li>• <span className="font-medium text-destructive">Si mencionas palabra prohibida:</span> presiona "FALTA" (pierdes turno)</li>
                           <li>• Al adivinar, presiona "ADIVINADO" para el siguiente papelito</li>
                           <li>• Si no adivinan, el papelito vuelve al juego más tarde</li>
