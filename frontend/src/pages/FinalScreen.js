@@ -172,7 +172,9 @@ const FinalScreen = () => {
                 <div className="grid md:grid-cols-2 gap-4">
                   {/* Team A */}
                   <div className="space-y-2">
-                    <h4 className="font-semibold text-sm text-muted-foreground">Equipo A</h4>
+                    <h4 className="font-semibold text-sm text-muted-foreground">
+                      {gameState.teamNames?.A || 'Equipo A'}
+                    </h4>
                     <div className="space-y-1">
                       {gameState.teams.A.map((player) => (
                         <div
@@ -186,7 +188,9 @@ const FinalScreen = () => {
                   </div>
                   {/* Team B */}
                   <div className="space-y-2">
-                    <h4 className="font-semibold text-sm text-muted-foreground">Equipo B</h4>
+                    <h4 className="font-semibold text-sm text-muted-foreground">
+                      {gameState.teamNames?.B || 'Equipo B'}
+                    </h4>
                     <div className="space-y-1">
                       {gameState.teams.B.map((player) => (
                         <div
