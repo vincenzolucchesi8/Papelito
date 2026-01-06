@@ -21,6 +21,7 @@ const initialState = {
   },
   players: [],
   teams: { A: [], B: [] },
+  teamNames: { A: 'Equipo A', B: 'Equipo B' }, // Nombres personalizables
   papelitos: [],
   currentRound: 1,
   currentTeam: 'A',
