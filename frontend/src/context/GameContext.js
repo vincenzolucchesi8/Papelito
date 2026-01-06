@@ -18,6 +18,7 @@ const initialState = {
     turnTime: 60,
     papelitosPerPlayer: 3,
     soundEnabled: true,
+    easyMode: false, // Sin restricciones
   },
   players: [],
   teams: { A: [], B: [] },
