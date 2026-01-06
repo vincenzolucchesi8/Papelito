@@ -47,7 +47,7 @@ const Configuration = () => {
       return;
     }
     updateGameState({
-      config: { turnTime, papelitosPerPlayer, soundEnabled },
+      config: { turnTime, papelitosPerPlayer, soundEnabled, easyMode },
       players,
       screen: 'teams',
     });
