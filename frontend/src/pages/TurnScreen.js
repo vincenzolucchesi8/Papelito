@@ -218,7 +218,7 @@ const TurnScreen = () => {
                   : 'bg-accent text-accent-foreground'
               } px-3 py-1 text-sm font-bold`}
             >
-              Equipo {currentTeam}
+              {teamName}
             </Badge>
             <div className="text-lg font-semibold mt-1">{currentPlayer}</div>
           </div>
