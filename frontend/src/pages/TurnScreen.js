@@ -83,7 +83,7 @@ const TurnScreen = () => {
     } else {
       // Next papelito
       setCurrentPapelitoIndex(0);
-      setRevealed(false);
+      setIsRevealing(false);
       toast.success('¡Correcto! +1 punto');
     }
   };
