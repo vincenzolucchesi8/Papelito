@@ -51,11 +51,11 @@ code {
         
         --radius: 0.75rem;
         
-        /* Paper-specific design tokens */
-        --paper-texture: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="300"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.03" /%3E%3C/svg%3E');
+        /* Paper-specific design tokens - Crumpled realistic paper */
+        --paper-texture-crumpled: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Cfilter id="crumple"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="8" result="noise"/%3E%3CfeDiffuseLighting in="noise" lighting-color="%23fff" surfaceScale="3"%3E%3CfeDistantLight azimuth="45" elevation="60"/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23crumple)" opacity="0.15" /%3E%3C/svg%3E');
         --shadow-soft: 0 2px 8px -2px hsl(var(--primary) / 0.15);
-        --shadow-paper: 0 4px 12px -3px hsl(var(--primary) / 0.2), 0 2px 4px -2px hsl(var(--primary) / 0.1);
-        --shadow-elevated: 0 8px 20px -4px hsl(var(--primary) / 0.25), 0 4px 8px -3px hsl(var(--primary) / 0.15);
+        --shadow-paper: 0 4px 12px -3px hsl(var(--primary) / 0.25), 0 2px 6px -2px hsl(var(--primary) / 0.15), inset 0 1px 0 hsl(0 0% 100% / 0.1);
+        --shadow-elevated: 0 10px 25px -5px hsl(var(--primary) / 0.3), 0 8px 10px -6px hsl(var(--primary) / 0.2), inset 0 2px 0 hsl(0 0% 100% / 0.1), inset -2px -2px 8px hsl(0 0% 0% / 0.05);
         
         --gradient-paper: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(42 25% 92%) 100%);
         --gradient-warm: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
