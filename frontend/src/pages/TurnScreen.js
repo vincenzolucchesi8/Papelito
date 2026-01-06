@@ -81,10 +81,24 @@ const TurnScreen = () => {
   const handleTimeUp = () => {
     setIsRunning(false);
     setTurnEnded(true);
+    
+    // Alerta visual y sonora
     if (gameState.config.soundEnabled) {
-      // Buzzer sound would play here
+      // Reproducir sonido de alarma
+      const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGnOPyvmwhBziK0fPTgjMGHm7A7+OZSR0KT6Pd8bllHgU7k9z0yoA');
+      audio.play().catch(() => {});
     }
-    toast.warning('¡Se acabó el tiempo!');
+    
+    // Alerta visual con toast
+    toast.error('⏰ ¡SE ACABÓ EL TIEMPO!', {
+      duration: 3000,
+      style: {
+        background: '#dc2626',
+        color: 'white',
+        fontSize: '18px',
+        fontWeight: 'bold',
+      },
+    });
   };
 
   const handleStart = () => {
