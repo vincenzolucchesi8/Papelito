@@ -103,7 +103,7 @@ const FinalScreen = () => {
                 <div className="text-center space-y-4">
                   <Sparkles className="w-10 h-10 mx-auto text-primary" />
                   <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-                    Equipo {winnerTeam}
+                    {gameState.teamNames?.[winnerTeam] || `Equipo ${winnerTeam}`}
                   </h1>
                   <div className="space-y-1">
                     <p className="text-6xl md:text-7xl font-bold text-primary">
