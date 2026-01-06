@@ -417,26 +417,27 @@ const TurnScreen = () => {
                 </Button>
               </div>
               
-              {/* Falta Button - Only if NOT easy mode */}
-              {!gameState.config.easyMode && (
-                <Button
-                  onClick={handleFalta}
-                  size="lg"
-                  variant="destructive"
-                  className="w-full btn-paper bg-destructive hover:bg-destructive/90 text-destructive-foreground font-bold h-16 text-base"
-                >
-                  <AlertTriangle className="w-5 h-5 mr-2" />
-                  FALTA (Palabra Prohibida)
-                </Button>
-              )}
-              
+              {/* ADIVINADO Button - GREEN - FIRST */}
               <Button
                 onClick={handleAdivinado}
                 size="lg"
-                className="w-full btn-paper bg-success hover:bg-success/90 text-white font-bold h-20 text-xl"
+                className="w-full btn-paper bg-success hover:bg-success/90 text-white font-bold h-20 text-xl shadow-md"
               >
                 <CheckCircle2 className="w-6 h-6 mr-2" />
                 ADIVINADO (+1)
+              </Button>
+              
+              {/* Falta Button - RED - SECOND - Always visible (both modes) */}
+              <Button
+                onClick={handleFalta}
+                size="lg"
+                variant="destructive"
+                className="w-full btn-paper bg-destructive hover:bg-destructive/90 text-destructive-foreground font-bold h-16 text-base"
+              >
+                <AlertTriangle className="w-5 h-5 mr-2" />
+                {gameState.config.easyMode 
+                  ? 'FALTA (Mencionó la Respuesta)' 
+                  : 'FALTA (Palabra Prohibida)'}
               </Button>
             </>
           )}
