@@ -52,6 +52,32 @@ const TurnScreen = () => {
     }
   }, []);
 
+  // Handle reveal button press
+  const handleRevealPress = () => {
+    setIsRevealing(true);
+  };
+
+  const handleRevealRelease = () => {
+    setIsRevealing(false);
+  };
+
+  // Global listeners for touch/mouse release
+  useEffect(() => {
+    const handleGlobalRelease = () => {
+      setIsRevealing(false);
+    };
+
+    window.addEventListener('mouseup', handleGlobalRelease);
+    window.addEventListener('touchend', handleGlobalRelease);
+    window.addEventListener('touchcancel', handleGlobalRelease);
+
+    return () => {
+      window.removeEventListener('mouseup', handleGlobalRelease);
+      window.removeEventListener('touchend', handleGlobalRelease);
+      window.removeEventListener('touchcancel', handleGlobalRelease);
+    };
+  }, []);
+
   const handleTimeUp = () => {
     setIsRunning(false);
     setTurnEnded(true);
