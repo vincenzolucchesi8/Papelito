@@ -51,19 +51,25 @@ export const GameProvider = ({ children }) => {
   };
 
   const startNewRound = () => {
-    // Crear pool para nueva ronda con todos los papelitos mezclados aleatoriamente
-    const shuffledPool = [...gameState.papelitos]
-      .sort(() => Math.random() - 0.5)
-      .sort(() => Math.random() - 0.5); // Mezclar dos veces para mejor aleatoriedad
-    
-    setGameState((prev) => ({
-      ...prev,
-      roundPools: {
-        ...prev.roundPools,
-        [prev.currentRound]: shuffledPool,
-      },
-      guessedInRound: [],
-    }));
+    setGameState((prev) => {
+      // CRÍTICO: Mezclar papelitos EN CADA RONDA con timestamp para asegurar aleatoriedad
+      const shuffledPool = [...prev.papelitos]
+        .map(p => ({ ...p, _shuffleKey: Math.random() + Date.now() }))
+        .sort(() => Math.random() - 0.5)
+        .sort(() => Math.random() - 0.5)
+        .sort(() => Math.random() - 0.5); // Triple shuffle para máxima aleatoriedad
+      
+      console.log(`🎲 Ronda ${prev.currentRound}: Pool mezclado con ${shuffledPool.length} papelitos`);
+      
+      return {
+        ...prev,
+        roundPools: {
+          ...prev.roundPools,
+          [prev.currentRound]: shuffledPool,
+        },
+        guessedInRound: [],
+      };
+    });
   };
 
   const markPapelitoCorrecto = (papelito) => {
