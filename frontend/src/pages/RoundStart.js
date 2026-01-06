@@ -114,6 +114,18 @@ const RoundStart = () => {
                     </motion.li>
                   ))}
                 </ul>
+                
+                {/* Important note about holding button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                  className="mt-4 p-4 bg-primary/10 rounded-lg border-2 border-primary/30"
+                >
+                  <p className="text-sm font-semibold text-primary">
+                    💡 Mantén presionado el botón para ver el papelito durante tu turno
+                  </p>
+                </motion.div>
               </div>
 
               {/* Scores */}
