@@ -62,7 +62,6 @@ const TurnScreen = () => {
 
   const handleStart = () => {
     setIsRunning(true);
-    setRevealed(true);
   };
 
   const handleAdivinado = () => {
