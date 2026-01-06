@@ -134,6 +134,9 @@ const TurnScreen = () => {
     if (updatedPool.length === 0) {
       // Pool vacío - verificar si hay más rondas
       if (gameState.currentRound < 3) {
+        // Guardar tiempo restante para siguiente ronda
+        sessionStorage.setItem('remainingTime', timeLeft.toString());
+        
         // Hay más rondas - continuar con tiempo restante
         toast.success(`¡Ronda ${gameState.currentRound} completada! Continuando...`);
         
@@ -146,6 +149,7 @@ const TurnScreen = () => {
         }, 1500);
       } else {
         // Última ronda completada
+        sessionStorage.removeItem('remainingTime');
         toast.success('¡Todas las rondas completadas!');
         setTimeout(() => {
           updateGameState({ screen: 'final' });
