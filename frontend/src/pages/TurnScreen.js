@@ -47,6 +47,7 @@ const TurnScreen = () => {
   const currentTeam = gameState.currentTeam;
   const currentTeamPlayers = gameState.teams[currentTeam];
   const currentPlayer = currentTeamPlayers[gameState.currentPlayerIndex];
+  const teamName = gameState.teamNames?.[currentTeam] || `Equipo ${currentTeam}`;
 
   const totalTime = gameState.config.turnTime;
   const progress = (timeLeft / totalTime) * 100;
