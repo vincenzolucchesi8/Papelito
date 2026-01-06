@@ -20,7 +20,7 @@ import {
 } from '../components/ui/alert-dialog';
 
 const TurnScreen = () => {
-  const { gameState, updateGameState, markPapelitoCorrecto, nextTurn } = useGame();
+  const { gameState, updateGameState, markPapelitoCorrecto, nextTurn, resetGame } = useGame();
   
   // Inicializar con tiempo guardado si existe (continuación de ronda anterior)
   const savedTime = sessionStorage.getItem('startWithTime');
