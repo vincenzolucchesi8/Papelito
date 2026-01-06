@@ -14,6 +14,7 @@ const Configuration = () => {
   const [turnTime, setTurnTime] = useState(gameState.config.turnTime);
   const [papelitosPerPlayer, setPapelitosPerPlayer] = useState(gameState.config.papelitosPerPlayer);
   const [soundEnabled, setSoundEnabled] = useState(gameState.config.soundEnabled);
+  const [easyMode, setEasyMode] = useState(gameState.config.easyMode || false);
   const [players, setPlayers] = useState(gameState.players.length > 0 ? gameState.players : []);
   const [newPlayerName, setNewPlayerName] = useState('');
 
