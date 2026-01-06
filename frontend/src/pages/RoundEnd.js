@@ -86,7 +86,7 @@ const RoundEnd = () => {
                   }`}
                 >
                   <div className="text-center space-y-2">
-                    <div className="text-sm text-muted-foreground font-semibold">Equipo A</div>
+                    <div className="text-sm text-muted-foreground font-semibold">{gameState.teamNames?.A || 'Equipo A'}</div>
                     <div className="text-5xl font-bold text-primary">
                       {gameState.scores.A}
                     </div>
