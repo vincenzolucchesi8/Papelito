@@ -17,16 +17,32 @@ const Home = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      {/* Decorative paper elements */}
+      {/* Decorative crumpled paper elements */}
       <motion.div
-        className="absolute top-10 left-10 w-32 h-32 bg-card rounded-lg opacity-20 rotate-12"
-        animate={{ rotate: [12, 15, 12], y: [0, -10, 0] }}
-        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-10 left-10 w-32 h-32 bg-card rounded-lg opacity-30 rotate-12 shadow-lg paper-card"
+        animate={{ rotate: [12, 18, 12], y: [0, -12, 0], scale: [1, 1.05, 1] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          clipPath: `polygon(
+            2% 1%, 5% 3%, 15% 2%, 25% 4%, 35% 1%, 50% 3%, 65% 2%, 75% 4%, 
+            85% 1%, 95% 3%, 98% 2%, 99% 15%, 98% 30%, 99% 45%, 97% 60%, 
+            99% 75%, 98% 85%, 96% 95%, 85% 98%, 70% 97%, 55% 99%, 40% 97%, 
+            25% 98%, 15% 96%, 5% 98%, 1% 85%, 2% 70%, 1% 55%, 3% 40%, 1% 25%, 2% 10%
+          )`
+        }}
       />
       <motion.div
-        className="absolute bottom-20 right-10 w-40 h-40 bg-secondary rounded-lg opacity-20 -rotate-12"
-        animate={{ rotate: [-12, -15, -12], y: [0, 10, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute bottom-20 right-10 w-40 h-40 bg-secondary rounded-lg opacity-30 -rotate-12 shadow-lg paper-card"
+        animate={{ rotate: [-12, -18, -12], y: [0, 12, 0], scale: [1, 1.05, 1] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          clipPath: `polygon(
+            1% 2%, 8% 1%, 20% 3%, 35% 1%, 50% 2%, 65% 1%, 80% 3%, 92% 1%, 
+            98% 3%, 99% 12%, 98% 25%, 99% 40%, 98% 55%, 99% 70%, 97% 85%, 
+            99% 92%, 96% 98%, 80% 99%, 65% 97%, 50% 98%, 35% 97%, 20% 99%, 
+            8% 98%, 2% 96%, 1% 80%, 2% 65%, 1% 50%, 2% 35%, 1% 20%, 2% 8%
+          )`
+        }}
       />
 
       <div className="relative z-10 max-w-md w-full space-y-8">
