@@ -183,6 +183,7 @@ const RoundStart = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
+          className="space-y-3"
         >
           <Button
             onClick={handleStart}
@@ -191,6 +192,37 @@ const RoundStart = () => {
           >
             Iniciar Turno
           </Button>
+          
+          {/* Restart Button with Confirmation */}
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full btn-paper border-2 border-destructive/50 text-destructive hover:bg-destructive/10"
+              >
+                <RotateCcw className="w-4 h-4 mr-2" />
+                Reiniciar Partida
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="paper-card">
+              <AlertDialogHeader>
+                <AlertDialogTitle>¿Reiniciar partida?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Se perderá todo el progreso actual: puntajes, rondas y papelitos. Esta acción no se puede deshacer.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel className="btn-paper">Cancelar</AlertDialogCancel>
+                <AlertDialogAction 
+                  onClick={handleRestart}
+                  className="btn-paper bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                >
+                  Sí, reiniciar
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </motion.div>
       </div>
     </div>
