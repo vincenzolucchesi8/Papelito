@@ -73,11 +73,13 @@ const PapelitosInput = () => {
     const newPapelito = {
       id: `${currentPlayer}-${Date.now()}`,
       respuesta: formData.respuesta.trim(),
-      restricciones: [
-        formData.restriccion1.trim(),
-        formData.restriccion2.trim(),
-        formData.restriccion3.trim(),
-      ],
+      restricciones: gameState.config.easyMode 
+        ? [] // Easy mode: sin restricciones
+        : [
+            formData.restriccion1.trim(),
+            formData.restriccion2.trim(),
+            formData.restriccion3.trim(),
+          ],
       createdBy: currentPlayer,
     };
 
