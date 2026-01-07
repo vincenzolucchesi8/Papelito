@@ -120,35 +120,33 @@ const PapelitosInput = () => {
       ? gameState.players[currentPlayerIndex + 1]
       : null;
 
-  // Pantalla de privacidad
+  // Pantalla de privacidad - Compact
   if (showHandoff) {
     return (
-      <div className="min-h-screen p-4 py-8 flex items-center justify-center bg-muted">
+      <div className="h-screen p-4 flex items-center justify-center bg-muted">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className="max-w-md w-full"
         >
           <Card className="paper-card border-2 border-primary">
-            <CardContent className="p-8 text-center space-y-6 relative z-10">
-              <div className="text-6xl mb-4">🔒</div>
-              <h2 className="text-2xl font-bold text-foreground">
+            <CardContent className="p-6 text-center space-y-4 relative z-10">
+              <div className="text-5xl">🔒</div>
+              <h2 className="text-xl font-bold text-foreground">
                 Turno de: {currentPlayer}
               </h2>
-              <p className="text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 Asegúrate de que solo tú puedas ver la pantalla
               </p>
-              <div className="pt-4">
-                <p className="text-sm text-muted-foreground mb-4">
-                  Debes escribir <span className="font-bold text-primary">{papelitosNeeded}</span> papelitos
-                </p>
-              </div>
+              <p className="text-sm text-muted-foreground">
+                Debes escribir <span className="font-bold text-primary">{papelitosNeeded}</span> papelitos
+              </p>
               <Button
                 onClick={() => setShowHandoff(false)}
                 size="lg"
-                className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-14"
+                className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-12"
               >
-                Estoy Listo, Comenzar
+                Estoy Listo
               </Button>
             </CardContent>
           </Card>
@@ -158,48 +156,39 @@ const PapelitosInput = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 py-8">
-      <div className="max-w-2xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-4">
+    <div className="h-screen p-3 flex flex-col overflow-hidden">
+      <div className="max-w-2xl mx-auto w-full flex flex-col flex-1 gap-2 overflow-hidden">
+        {/* Header - Compact */}
+        <div className="flex items-center gap-3 shrink-0">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => updateGameState({ screen: 'teams' })}
-            className="btn-paper"
+            className="btn-paper h-9 w-9"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-5 h-5" />
           </Button>
-          <div className="flex-1">
-            <h1 className="text-3xl font-bold text-foreground">{currentPlayer}</h1>
-            <p className="text-muted-foreground text-sm">
-              Jugador {currentPlayerIndex + 1} de {gameState.players.length}
+          <div className="flex-1 min-w-0">
+            <h1 className="text-xl font-bold text-foreground truncate">{currentPlayer}</h1>
+            <p className="text-muted-foreground text-xs">
+              Jugador {currentPlayerIndex + 1}/{gameState.players.length}
             </p>
           </div>
-          <div className="text-right">
-            <div className="text-2xl font-bold text-primary">{currentPapelitos.length}</div>
-            <div className="text-xs text-muted-foreground">de {papelitosNeeded}</div>
+          <div className="text-right shrink-0">
+            <div className="text-xl font-bold text-primary">{currentPapelitos.length}/{papelitosNeeded}</div>
           </div>
         </div>
 
-        {/* Alert */}
+        {/* Alert - Compact */}
         {papelitosRemaining > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <Card className="paper-card border-2 border-primary bg-primary/5">
-              <CardContent className="p-4 relative z-10">
-                <div className="flex items-start gap-3">
-                  <AlertCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                  <p className="text-sm font-medium">
-                    Te faltan <span className="text-primary font-bold">{papelitosRemaining}</span> papelito
-                    {papelitosRemaining !== 1 ? 's' : ''}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+          <div className="p-2 bg-primary/10 rounded border border-primary/30 shrink-0">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-primary shrink-0" />
+              <p className="text-xs font-medium">
+                Te faltan <span className="text-primary font-bold">{papelitosRemaining}</span> papelito{papelitosRemaining !== 1 ? 's' : ''}
+              </p>
+            </div>
+          </div>
         )}
 
         {/* Input Form */}
