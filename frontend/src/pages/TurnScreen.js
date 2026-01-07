@@ -53,58 +53,8 @@ const TurnScreen = () => {
   const progress = (timeLeft / totalTime) * 100;
   const isUrgent = timeLeft <= 10;
 
-  // Timer effect
-  useEffect(() => {
-    if (!isRunning || timeLeft <= 0) return;
-
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          handleTimeUp();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [isRunning, timeLeft]);
-
-  // Play paper sound on mount (if enabled)
-  useEffect(() => {
-    if (gameState.config.soundEnabled) {
-      // Paper shuffle sound would play here
-    }
-  }, []);
-
-  // Handle reveal button press
-  const handleRevealPress = () => {
-    setIsRevealing(true);
-  };
-
-  const handleRevealRelease = () => {
-    setIsRevealing(false);
-  };
-
-  // Global listeners for touch/mouse release
-  useEffect(() => {
-    const handleGlobalRelease = () => {
-      setIsRevealing(false);
-    };
-
-    window.addEventListener('mouseup', handleGlobalRelease);
-    window.addEventListener('touchend', handleGlobalRelease);
-    window.addEventListener('touchcancel', handleGlobalRelease);
-
-    return () => {
-      window.removeEventListener('mouseup', handleGlobalRelease);
-      window.removeEventListener('touchend', handleGlobalRelease);
-      window.removeEventListener('touchcancel', handleGlobalRelease);
-    };
-  }, []);
-
-  const handleTimeUp = () => {
+  // Handle time up - declare before timer effect
+  const handleTimeUp = React.useCallback(() => {
     setIsRunning(false);
     setTurnEnded(true);
     
@@ -125,6 +75,40 @@ const TurnScreen = () => {
         fontWeight: 'bold',
       },
     });
+  }, [gameState.config.soundEnabled]);
+
+  // Timer effect
+  useEffect(() => {
+    if (!isRunning || timeLeft <= 0) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          handleTimeUp();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isRunning, timeLeft, handleTimeUp]);
+
+  // Play paper sound on mount (if enabled)
+  useEffect(() => {
+    if (gameState.config.soundEnabled) {
+      // Paper shuffle sound would play here
+    }
+  }, [gameState.config.soundEnabled]);
+
+  // Handle reveal button press
+  const handleRevealPress = () => {
+    setIsRevealing(true);
+  };
+
+  const handleRevealRelease = () => {
+    setIsRevealing(false);
   };
 
   const handleStart = () => {
