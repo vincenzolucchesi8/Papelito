@@ -191,140 +191,114 @@ const PapelitosInput = () => {
           </div>
         )}
 
-        {/* Input Form */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <Card className="paper-card border-2 border-border">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="w-5 h-5 text-primary" />
-                Nuevo Papelito
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 relative z-10">
-              {/* Respuesta */}
-              <div className="space-y-2">
-                <Label htmlFor="respuesta" className="text-base font-semibold">
-                  Respuesta (palabra o personaje)
-                </Label>
-                <Input
-                  id="respuesta"
-                  placeholder="Ej: Harry Potter"
-                  value={formData.respuesta}
-                  onChange={(e) => setFormData({ ...formData, respuesta: e.target.value })}
-                  className="border-2 h-12 text-base"
-                />
-              </div>
+        {/* Input Form - Compact */}
+        <Card className="paper-card border border-border flex-1 min-h-0 flex flex-col overflow-hidden">
+          <CardHeader className="p-3 pb-2 shrink-0">
+            <CardTitle className="flex items-center gap-2 text-sm">
+              <FileText className="w-4 h-4 text-primary" />
+              Nuevo Papelito
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-3 pt-0 relative z-10 flex-1 min-h-0 overflow-y-auto space-y-2">
+            {/* Respuesta */}
+            <div className="space-y-1">
+              <Label htmlFor="respuesta" className="text-sm font-semibold">
+                Respuesta
+              </Label>
+              <Input
+                id="respuesta"
+                placeholder="Ej: Harry Potter"
+                value={formData.respuesta}
+                onChange={(e) => setFormData({ ...formData, respuesta: e.target.value })}
+                className="border h-9 text-sm"
+              />
+            </div>
 
-              {/* Restricciones */}
-              {!gameState.config.easyMode && (
-                <div className="space-y-3 pt-2">
-                  <Label className="text-base font-semibold text-destructive">
-                    Palabras Prohibidas (3 restricciones)
-                  </Label>
-                  <p className="text-xs text-muted-foreground">
-                    No se puede mencionar la respuesta ni estas palabras
-                  </p>
+            {/* Restricciones */}
+            {!gameState.config.easyMode && (
+              <div className="space-y-2">
+                <Label className="text-xs font-semibold text-destructive">
+                  Palabras Prohibidas
+                </Label>
+                <div className="grid grid-cols-3 gap-2">
                   {[1, 2, 3].map((num) => (
-                    <div key={num} className="space-y-1">
-                      <Label htmlFor={`restriccion${num}`} className="text-sm">
-                        Restricción {num}
-                      </Label>
-                      <Input
-                        id={`restriccion${num}`}
-                        placeholder={`Palabra prohibida ${num}`}
-                        value={formData[`restriccion${num}`]}
-                        onChange={(e) =>
-                          setFormData({ ...formData, [`restriccion${num}`]: e.target.value })
-                        }
-                        className="border-2"
-                      />
+                    <Input
+                      key={num}
+                      placeholder={`#${num}`}
+                      value={formData[`restriccion${num}`]}
+                      onChange={(e) =>
+                        setFormData({ ...formData, [`restriccion${num}`]: e.target.value })
+                      }
+                      className="border h-8 text-xs"
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {gameState.config.easyMode && (
+              <div className="p-2 bg-success/10 rounded border border-success/30">
+                <p className="text-xs text-success font-medium text-center">
+                  😊 Modo Fácil: Solo la respuesta
+                </p>
+              </div>
+            )}
+
+            <Button
+              onClick={addPapelito}
+              disabled={currentPapelitos.length >= papelitosNeeded}
+              className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-10 text-sm"
+            >
+              {currentPapelitos.length >= papelitosNeeded 
+                ? `Límite (${papelitosNeeded}/${papelitosNeeded})`
+                : `Agregar (${currentPapelitos.length}/${papelitosNeeded})`
+              }
+            </Button>
+
+            {/* Current Papelitos List - Inside same card */}
+            {currentPapelitos.length > 0 && (
+              <div className="pt-2 border-t border-border">
+                <p className="text-xs font-semibold text-muted-foreground mb-1.5">Tus papelitos:</p>
+                <div className="space-y-1">
+                  {currentPapelitos.map((papelito, index) => (
+                    <div
+                      key={papelito.id}
+                      className="p-1.5 bg-secondary rounded border border-border text-xs"
+                    >
+                      <span className="font-semibold">{papelito.respuesta}</span>
+                      {papelito.restricciones.length > 0 && (
+                        <span className="text-destructive ml-1">
+                          ({papelito.restricciones.join(', ')})
+                        </span>
+                      )}
                     </div>
                   ))}
                 </div>
-              )}
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
-              {gameState.config.easyMode && (
-                <div className="p-3 bg-success/10 rounded-lg border border-success/30">
-                  <p className="text-sm text-success font-medium text-center">
-                    😊 Modo Fácil: Solo escribe la respuesta
-                  </p>
-                </div>
-              )}
-
+        {/* Next Player Button - Compact */}
+        {currentPapelitos.length === papelitosNeeded && (
+          <Card className="paper-card border-2 border-primary bg-gradient-to-br from-primary/10 to-accent/10 shrink-0">
+            <CardContent className="p-3 text-center space-y-2 relative z-10">
+              <p className="text-sm font-semibold">
+                {nextPlayerName ? (
+                  <>Pasa el celular a <span className="text-primary">{nextPlayerName}</span></>
+                ) : (
+                  '¡Todos listos!'
+                )}
+              </p>
               <Button
-                onClick={addPapelito}
-                disabled={currentPapelitos.length >= papelitosNeeded}
+                onClick={nextPlayer}
                 size="lg"
-                className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-12 mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-11"
               >
-                {currentPapelitos.length >= papelitosNeeded 
-                  ? `Límite Alcanzado (${papelitosNeeded}/${papelitosNeeded})`
-                  : `Agregar Papelito (${currentPapelitos.length}/${papelitosNeeded})`
-                }
+                {nextPlayerName ? `Turno de ${nextPlayerName}` : 'Iniciar Juego'}
               </Button>
             </CardContent>
           </Card>
-        </motion.div>
-
-        {/* Current Papelitos List */}
-        {currentPapelitos.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <Card className="paper-card border-2 border-border">
-              <CardHeader>
-                <CardTitle className="text-base">Tus Papelitos</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2 relative z-10">
-                {currentPapelitos.map((papelito, index) => (
-                  <div
-                    key={papelito.id}
-                    className="p-3 bg-secondary rounded-lg border border-border"
-                  >
-                    <div className="font-semibold text-sm">{papelito.respuesta}</div>
-                    {papelito.restricciones.length > 0 && (
-                      <div className="text-xs text-destructive mt-1">
-                        Prohibido: {papelito.restricciones.join(', ')}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
-
-        {/* Next Player Button */}
-        {currentPapelitos.length === papelitosNeeded && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            <Card className="paper-card border-2 border-primary bg-gradient-to-br from-primary/10 to-accent/10">
-              <CardContent className="p-6 text-center space-y-3 relative z-10">
-                <p className="text-lg font-semibold">
-                  {nextPlayerName ? (
-                    <>
-                      ¡Listo! Pasa el celular a <span className="text-primary">{nextPlayerName}</span>
-                    </>
-                  ) : (
-                    '¡Todos listos! Comencemos el juego'
-                  )}
-                </p>
-                <Button
-                  onClick={nextPlayer}
-                  size="lg"
-                  className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-14"
-                >
-                  {nextPlayerName ? `Turno de ${nextPlayerName}` : 'Iniciar Juego'}
-                </Button>
-              </CardContent>
-            </Card>
-          </motion.div>
         )}
       </div>
     </div>
