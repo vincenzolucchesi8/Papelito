@@ -158,38 +158,39 @@ const Teams = () => {
           </motion.div>
         )}
 
-        {/* Manual Assignment - Unassigned Players */}
+        {/* Manual Assignment - Unassigned Players - Compact */}
         {assignmentMode === 'manual' && unassignedPlayers.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
+            className="shrink-0"
           >
-            <Card className="paper-card border-2 border-border">
-              <CardHeader>
-                <CardTitle className="text-base">Jugadores sin asignar</CardTitle>
+            <Card className="paper-card border border-border">
+              <CardHeader className="p-3 pb-2">
+                <CardTitle className="text-sm">Sin asignar ({unassignedPlayers.length})</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-2 relative z-10">
+              <CardContent className="p-3 pt-0 space-y-1.5 relative z-10 max-h-32 overflow-y-auto">
                 {unassignedPlayers.map((player) => (
                   <div
                     key={player}
-                    className="flex items-center justify-between p-3 bg-muted rounded-lg"
+                    className="flex items-center justify-between p-2 bg-muted rounded text-sm"
                   >
-                    <span className="font-medium">{player}</span>
-                    <div className="flex gap-2">
+                    <span className="font-medium truncate">{player}</span>
+                    <div className="flex gap-1.5 shrink-0">
                       <Button
                         size="sm"
                         onClick={() => moveToTeam(player, 'A')}
-                        className="btn-paper bg-primary text-primary-foreground"
+                        className="btn-paper bg-primary text-primary-foreground h-7 px-2 text-xs"
                       >
-                        Equipo A
+                        A
                       </Button>
                       <Button
                         size="sm"
                         variant="outline"
                         onClick={() => moveToTeam(player, 'B')}
-                        className="btn-paper border-2"
+                        className="btn-paper border h-7 px-2 text-xs"
                       >
-                        Equipo B
+                        B
                       </Button>
                     </div>
                   </div>
@@ -199,117 +200,108 @@ const Teams = () => {
           </motion.div>
         )}
 
-        {/* Teams Display */}
+        {/* Teams Display - Compact */}
         {assignmentMode && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="grid md:grid-cols-2 gap-4"
+            className="grid grid-cols-2 gap-2 flex-1 min-h-0 overflow-hidden"
           >
             {/* Team A */}
-            <Card className="paper-card border-2 border-primary">
-              <CardHeader className="bg-primary/10">
-                <CardTitle className="flex items-center justify-between">
-                  <span>{teamNames.A}</span>
-                  <Badge variant="secondary" className="bg-primary text-primary-foreground">
+            <Card className="paper-card border border-primary flex flex-col min-h-0">
+              <CardHeader className="bg-primary/10 p-2 shrink-0">
+                <CardTitle className="flex items-center justify-between text-sm">
+                  <span className="truncate">{teamNames.A}</span>
+                  <Badge variant="secondary" className="bg-primary text-primary-foreground text-xs px-1.5">
                     {teams.A.length}
                   </Badge>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-4 space-y-2 relative z-10">
+              <CardContent className="p-2 relative z-10 flex-1 min-h-0 overflow-y-auto">
                 {teams.A.length === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-4">
-                    Sin jugadores
-                  </p>
+                  <p className="text-xs text-muted-foreground text-center py-2">Sin jugadores</p>
                 ) : (
-                  teams.A.map((player, index) => (
-                    <motion.div
-                      key={player}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="p-3 bg-primary/5 rounded-lg border border-primary/20"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium">{player}</span>
+                  <div className="space-y-1">
+                    {teams.A.map((player, index) => (
+                      <div
+                        key={player}
+                        className="p-1.5 bg-primary/5 rounded border border-primary/20 flex items-center justify-between"
+                      >
+                        <span className="font-medium text-xs truncate">{player}</span>
                         {assignmentMode === 'manual' && (
                           <Button
                             size="sm"
                             variant="ghost"
                             onClick={() => moveToTeam(player, 'B')}
-                            className="h-8 text-xs"
+                            className="h-5 w-5 p-0 text-xs"
                           >
-                            → B
+                            →
                           </Button>
                         )}
                       </div>
-                    </motion.div>
-                  ))
+                    ))}
+                  </div>
                 )}
               </CardContent>
             </Card>
 
             {/* Team B */}
-            <Card className="paper-card border-2 border-accent">
-              <CardHeader className="bg-accent/10">
-                <CardTitle className="flex items-center justify-between">
-                  <span>{teamNames.B}</span>
-                  <Badge variant="secondary" className="bg-accent text-accent-foreground">
+            <Card className="paper-card border border-accent flex flex-col min-h-0">
+              <CardHeader className="bg-accent/10 p-2 shrink-0">
+                <CardTitle className="flex items-center justify-between text-sm">
+                  <span className="truncate">{teamNames.B}</span>
+                  <Badge variant="secondary" className="bg-accent text-accent-foreground text-xs px-1.5">
                     {teams.B.length}
                   </Badge>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-4 space-y-2 relative z-10">
+              <CardContent className="p-2 relative z-10 flex-1 min-h-0 overflow-y-auto">
                 {teams.B.length === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-4">
-                    Sin jugadores
-                  </p>
+                  <p className="text-xs text-muted-foreground text-center py-2">Sin jugadores</p>
                 ) : (
-                  teams.B.map((player, index) => (
-                    <motion.div
-                      key={player}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="p-3 bg-accent/5 rounded-lg border border-accent/20"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium">{player}</span>
+                  <div className="space-y-1">
+                    {teams.B.map((player, index) => (
+                      <div
+                        key={player}
+                        className="p-1.5 bg-accent/5 rounded border border-accent/20 flex items-center justify-between"
+                      >
+                        <span className="font-medium text-xs truncate">{player}</span>
                         {assignmentMode === 'manual' && (
                           <Button
                             size="sm"
                             variant="ghost"
                             onClick={() => moveToTeam(player, 'A')}
-                            className="h-8 text-xs"
+                            className="h-5 w-5 p-0 text-xs"
                           >
-                            ← A
+                            ←
                           </Button>
                         )}
                       </div>
-                    </motion.div>
-                  ))
+                    ))}
+                  </div>
                 )}
               </CardContent>
             </Card>
           </motion.div>
         )}
 
-        {/* Confirm Button */}
+        {/* Confirm Button - Compact */}
         {assignmentMode && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="space-y-3"
+            className="space-y-2 shrink-0"
           >
             {assignmentMode === 'auto' && (
               <Button
                 onClick={autoAssignTeams}
                 variant="outline"
-                className="w-full btn-paper border-2"
+                size="sm"
+                className="w-full btn-paper border h-9 text-sm"
               >
-                <Shuffle className="w-4 h-4 mr-2" />
+                <Shuffle className="w-3 h-3 mr-1.5" />
                 Mezclar de Nuevo
               </Button>
             )}
@@ -317,7 +309,7 @@ const Teams = () => {
               onClick={handleConfirm}
               disabled={teams.A.length === 0 || teams.B.length === 0 || unassignedPlayers.length > 0}
               size="lg"
-              className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-14"
+              className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-12"
             >
               Confirmar Equipos
             </Button>
