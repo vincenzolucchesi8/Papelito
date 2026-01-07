@@ -238,8 +238,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Hold to reveal button - no text selection"
-    - "TurnScreen - no scroll required"
     - "Complete game flow E2E"
   stuck_tasks: []
   test_all: false
@@ -256,3 +254,31 @@ agent_communication:
       - El botón de revelar usa user-select: none, WebkitTouchCallout: none, touchAction: manipulation
       - Agregado onContextMenu preventDefault y onTouchMove preventDefault
       Por favor verificar el flujo completo del juego en mobile viewport.
+  - agent: "testing"
+    message: |
+      MOBILE TESTING COMPLETED ✅
+      
+      Tested Papelito game on iPhone 14 Pro viewport (390x844):
+      
+      CRITICAL TESTS PASSED:
+      ✅ Home screen: No scroll required
+      ✅ Configuration screen: No scroll required  
+      ✅ Teams screen: No scroll required (both auto and manual assignment)
+      ✅ PapelitosInput handoff: No scroll required
+      ✅ PapelitosInput form: No scroll required
+      ✅ TurnScreen: No scroll required (CRITICAL)
+      ✅ Hold-to-reveal button: Working perfectly
+      ✅ Text selection prevention: Implemented with CSS
+      ✅ RoundStart screen: No scroll required
+      ✅ RoundEnd screen: No scroll required
+      ✅ FinalScreen: No scroll required
+      
+      HOLD-TO-REVEAL BUTTON TESTS:
+      ✅ Content reveals on mousedown/touchstart
+      ✅ Content hides on mouseup/touchend
+      ✅ Text selection prevented (user-select: none)
+      ✅ Touch callout prevented (webkit-touch-callout: none)
+      ✅ Touch action set to manipulation
+      
+      All screens fit perfectly within 844px viewport height.
+      Game is fully mobile-optimized and ready for production.
