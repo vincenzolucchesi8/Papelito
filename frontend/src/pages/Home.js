@@ -176,7 +176,7 @@ const Home = () => {
           transition={{ delay: 0.5 }}
           className="text-center text-sm text-muted-foreground"
         >
-          Juega con amigos y familia • Mobile-first
+          Juega con amigos y familia • VingCheng Games
         </motion.p>
       </div>
     </div>
