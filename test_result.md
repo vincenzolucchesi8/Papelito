@@ -101,3 +101,146 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: |
+  App Papelito - juego de adivinanzas en equipo. Mobile-first, single-device gameplay.
+  Issues actuales:
+  1. UI requería scroll en móviles - ARREGLADO
+  2. Botón "mantener presionado" activaba selección de texto en móvil - ARREGLADO
+  3. Rendimiento lento - Parcialmente arreglado con optimizaciones de CSS
+
+frontend:
+  - task: "Home screen - no scroll required"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/Home.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Already compact, no changes needed"
+
+  - task: "Configuration screen - no scroll required"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/Configuration.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Optimized layout with compact grid and flexbox"
+
+  - task: "Teams screen - no scroll required"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/Teams.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Compacted team cards and input, grid layout for teams"
+
+  - task: "PapelitosInput screen - no scroll required"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/PapelitosInput.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Compact form, combined papelitos list into main card"
+
+  - task: "TurnScreen - no scroll required"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/TurnScreen.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Fully optimized with compact timer, card, buttons and scores"
+
+  - task: "Hold to reveal button - no text selection"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/TurnScreen.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Added user-select: none, touch-callout: none, touch-action: manipulation, and onContextMenu prevention"
+
+  - task: "RoundStart screen - no scroll required"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/RoundStart.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Compact layout with scrollable rules area if needed"
+
+  - task: "RoundEnd screen - no scroll required"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/RoundEnd.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Compact scores and status display"
+
+  - task: "FinalScreen - no scroll required"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/FinalScreen.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Compact winner display with confetti"
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: true
+
+test_plan:
+  current_focus:
+    - "Hold to reveal button - no text selection"
+    - "TurnScreen - no scroll required"
+    - "Complete game flow E2E"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: |
+      Optimizado todas las pantallas para que no requieran scroll en móviles (iPhone 14 Pro/16 viewport 390x844).
+      Arreglado el bug del botón "mantener presionado" que activaba selección de texto.
+      Cambios principales:
+      - Todos los layouts usan h-screen y flex con overflow-hidden
+      - Reducido padding, margins y font sizes
+      - El botón de revelar usa user-select: none, WebkitTouchCallout: none, touchAction: manipulation
+      - Agregado onContextMenu preventDefault y onTouchMove preventDefault
+      Por favor verificar el flujo completo del juego en mobile viewport.
