@@ -364,13 +364,13 @@ const TurnScreen = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Action Buttons */}
-        <div className="space-y-3 pt-2">
+        {/* Action Buttons - Compact */}
+        <div className="space-y-2 shrink-0">
           {!isRunning && !turnEnded && (
             <Button
               onClick={handleStart}
               size="lg"
-              className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-16 text-lg"
+              className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-12 text-base"
             >
               Iniciar Cronómetro
             </Button>
@@ -404,7 +404,7 @@ const TurnScreen = () => {
                   onContextMenu={(e) => e.preventDefault()}
                   size="lg"
                   variant="outline"
-                  className={`w-full btn-paper border-2 font-bold h-16 text-base transition-colors select-none ${
+                  className={`w-full btn-paper border-2 font-bold h-12 text-sm transition-colors select-none ${
                     isRevealing 
                       ? 'bg-primary/20 border-primary' 
                       : 'border-primary hover:bg-primary/5'
@@ -418,31 +418,31 @@ const TurnScreen = () => {
                     msUserSelect: 'none'
                   }}
                 >
-                  <Eye className="w-5 h-5 mr-2" />
+                  <Eye className="w-4 h-4 mr-1.5" />
                   {isRevealing ? '👁️ Mostrando...' : '🔒 Mantener para Ver'}
                 </Button>
               </div>
               
-              {/* ADIVINADO Button - GREEN - FIRST */}
+              {/* ADIVINADO Button - GREEN */}
               <Button
                 onClick={handleAdivinado}
                 size="lg"
-                className="w-full btn-paper bg-success hover:bg-success/90 text-white font-bold h-20 text-xl shadow-md"
+                className="w-full btn-paper bg-success hover:bg-success/90 text-white font-bold h-14 text-lg shadow-md"
               >
-                <CheckCircle2 className="w-6 h-6 mr-2" />
+                <CheckCircle2 className="w-5 h-5 mr-2" />
                 ADIVINADO (+1)
               </Button>
               
-              {/* Falta Button - RED - SECOND - Always visible (both modes) */}
+              {/* Falta Button - RED */}
               <Button
                 onClick={handleFalta}
                 size="lg"
                 variant="destructive"
-                className="w-full btn-paper bg-destructive hover:bg-destructive/90 text-destructive-foreground font-bold h-16 text-base"
+                className="w-full btn-paper bg-destructive hover:bg-destructive/90 text-destructive-foreground font-bold h-10 text-sm"
               >
-                <AlertTriangle className="w-5 h-5 mr-2" />
+                <AlertTriangle className="w-4 h-4 mr-1.5" />
                 {gameState.config.easyMode 
-                  ? 'FALTA (Mencionó la Respuesta)' 
+                  ? 'FALTA (Dijo la Respuesta)' 
                   : 'FALTA (Palabra Prohibida)'}
               </Button>
             </>
@@ -452,7 +452,7 @@ const TurnScreen = () => {
             <Button
               onClick={handleEndTurn}
               size="lg"
-              className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-16 text-lg"
+              className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-12 text-base"
             >
               Siguiente Turno
             </Button>
