@@ -40,7 +40,7 @@ const TurnScreen = () => {
     if (savedTime) {
       sessionStorage.removeItem('startWithTime');
     }
-  }, []);
+  }, [savedTime]);
 
   const currentPool = gameState.roundPools[gameState.currentRound] || [];
   const currentPapelito = currentPool[currentPapelitoIndex];
