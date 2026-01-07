@@ -236,69 +236,57 @@ const TurnScreen = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 py-6">
-      <div className="max-w-2xl mx-auto space-y-4">
-        {/* Header Info */}
-        <div className="flex items-center justify-between">
-          <div>
+    <div className="h-screen p-3 flex flex-col overflow-hidden">
+      <div className="max-w-2xl mx-auto w-full flex flex-col flex-1 gap-2 overflow-hidden">
+        {/* Header Info - Compact */}
+        <div className="flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-2">
             <Badge
               className={`${
                 currentTeam === 'A'
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-accent text-accent-foreground'
-              } px-3 py-1 text-sm font-bold`}
+              } px-2 py-0.5 text-xs font-bold`}
             >
               {teamName}
             </Badge>
-            <div className="text-lg font-semibold mt-1">{currentPlayer}</div>
+            <span className="text-sm font-semibold">{currentPlayer}</span>
           </div>
-          <div className="text-right">
-            <div className="text-sm text-muted-foreground">Ronda {gameState.currentRound}</div>
-            <div className="text-sm font-medium">
-              {currentPool.length} papelitos restantes
-            </div>
+          <div className="text-right text-xs">
+            <span className="text-muted-foreground">R{gameState.currentRound} · </span>
+            <span className="font-medium">{currentPool.length} restantes</span>
           </div>
         </div>
 
-        {/* Timer */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+        {/* Timer - Compact */}
+        <Card
+          className={`paper-card border shrink-0 ${
+            isUrgent ? 'border-destructive timer-urgent' : 'border-border'
+          }`}
         >
-          <Card
-            className={`paper-card border-2 ${
-              isUrgent ? 'border-destructive timer-urgent' : 'border-border'
-            }`}
-          >
-            <CardContent className="p-6 space-y-4 relative z-10">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Clock className={`w-5 h-5 ${isUrgent ? 'text-destructive' : 'text-primary'}`} />
-                  <span className="text-sm font-medium text-muted-foreground">
-                    Tiempo {initialTime > gameState.config.turnTime ? '⭐ BONUS' : ''}
-                  </span>
-                </div>
-                <div
-                  className={`text-4xl font-bold ${
-                    isUrgent ? 'text-destructive' : 'text-foreground'
-                  }`}
-                >
-                  {timeLeft}s
-                </div>
+          <CardContent className="p-3 relative z-10">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-1.5">
+                <Clock className={`w-4 h-4 ${isUrgent ? 'text-destructive' : 'text-primary'}`} />
+                <span className="text-xs text-muted-foreground">
+                  {initialTime > gameState.config.turnTime ? '⭐ BONUS' : 'Tiempo'}
+                </span>
               </div>
-              <Progress
-                value={progress}
-                className="h-3"
-                indicatorClassName={isUrgent ? 'bg-destructive' : 'bg-primary'}
-              />
-              {initialTime > gameState.config.turnTime && (
-                <p className="text-xs text-center text-primary font-semibold">
-                  ¡Continuando desde ronda anterior!
-                </p>
-              )}
-            </CardContent>
-          </Card>
-        </motion.div>
+              <div
+                className={`text-2xl font-bold ${
+                  isUrgent ? 'text-destructive' : 'text-foreground'
+                }`}
+              >
+                {timeLeft}s
+              </div>
+            </div>
+            <Progress
+              value={progress}
+              className="h-2"
+              indicatorClassName={isUrgent ? 'bg-destructive' : 'bg-primary'}
+            />
+          </CardContent>
+        </Card>
 
         {/* Papelito Card */}
         <AnimatePresence mode="wait">
