@@ -32,21 +32,18 @@ const TurnScreen = () => {
   const teamName = gameState.teamNames?.[currentTeam] || `Equipo ${currentTeam}`;
 
   /**
-   * BONUS/CARRY-OVER FIX:
-   * - El tiempo restante al completar una ronda se guarda con scope: {team, round, seconds}
-   * - Solo se aplica si coincide con equipo y ronda actuales, y se consume una vez.
+   * CARRY-OVER (BONUS) FIX:
+   * - Guardamos bonus con scope: { team, round, seconds } en sessionStorage.carryOver
+   * - Se aplica SOLO si coincide con el equipo y la ronda actuales.
+   * - Se consume (remove) en cuanto se aplica para que no afecte turnos siguientes ni al otro equipo.
    */
   const getInitialTime = () => {
-    // Default
     const fallback = gameState.config.turnTime;
-
     if (typeof window === 'undefined') return fallback;
 
-    // Limpieza defensiva: si quedó lógica antigua
-    const legacyRemaining = sessionStorage.getItem('remainingTime');
-    if (legacyRemaining) sessionStorage.removeItem('remainingTime');
-    const legacyStart = sessionStorage.getItem('startWithTime');
-    if (legacyStart) sessionStorage.removeItem('startWithTime');
+    // Limpieza defensiva de versiones antiguas
+    if (sessionStorage.getItem('remainingTime')) sessionStorage.removeItem('remainingTime');
+    if (sessionStorage.getItem('startWithTime')) sessionStorage.removeItem('startWithTime');
 
     const raw = sessionStorage.getItem('carryOver');
     if (!raw) return fallback;
@@ -61,12 +58,10 @@ const TurnScreen = () => {
         c.seconds > 0;
 
       if (isMatch) {
-        // Consumir para que NO afecte a otros turnos/equipos
-        sessionStorage.removeItem('carryOver');
+        sessionStorage.removeItem('carryOver'); // consumir una sola vez
         return c.seconds;
       }
 
-      // Si no coincide, no lo consumimos todavía (puede ser para el otro equipo/otro momento)
       return fallback;
     } catch {
       sessionStorage.removeItem('carryOver');
@@ -80,7 +75,7 @@ const TurnScreen = () => {
   const [turnEnded, setTurnEnded] = useState(false);
   const revealButtonRef = useRef(null);
 
-  // Re-inicializar el tiempo si cambia de equipo o ronda (nuevo turno real)
+  // Reinicialización limpia al cambiar equipo o ronda
   useEffect(() => {
     setIsRunning(false);
     setTurnEnded(false);
@@ -116,7 +111,7 @@ const TurnScreen = () => {
     });
   }, [gameState.config.soundEnabled]);
 
-  // Timer effect (tu lógica está bien; solo ojo que recrea interval cada tick, pero funciona)
+  // Timer effect
   useEffect(() => {
     if (!isRunning || timeLeft <= 0) return;
 
@@ -134,17 +129,11 @@ const TurnScreen = () => {
     return () => clearInterval(timer);
   }, [isRunning, timeLeft, handleTimeUp]);
 
+  // Global listeners for release
   useEffect(() => {
-    if (gameState.config.soundEnabled) {
-      // Paper shuffle sound would play here
-    }
-  }, [gameState.config.soundEnabled]);
-
-  const handleRevealPress = () => setIsRevealing(true);
-  const handleRevealRelease = () => setIsRevealing(false);
-
-  useEffect(() => {
-    const handleGlobalRelease = () => setIsRevealing(false);
+    const handleGlobalRelease = () => {
+      setIsRevealing(false);
+    };
 
     window.addEventListener('mouseup', handleGlobalRelease);
     window.addEventListener('touchend', handleGlobalRelease);
@@ -157,20 +146,22 @@ const TurnScreen = () => {
     };
   }, []);
 
-  const handleStart = () => setIsRunning(true);
+  const handleStart = () => {
+    setIsRunning(true);
+  };
 
   const handleAdivinado = () => {
     if (!currentPapelito) return;
 
     markPapelitoCorrecto(currentPapelito);
 
-    // Check if pool is empty after marking (local)
+    // Pool local luego de marcar
     const updatedPool = currentPool.filter((p) => p.id !== currentPapelito.id);
 
     if (updatedPool.length === 0) {
-      // Pool vacío - verificar si hay más rondas
+      // Terminó la ronda (pool vacío)
       if (gameState.currentRound < 3) {
-        // Guardar tiempo restante para la SIGUIENTE ronda, pero scoped al equipo actual
+        // Guardar carry-over SOLO para el mismo equipo y la siguiente ronda
         if (typeof window !== 'undefined' && timeLeft > 0) {
           const carry = {
             team: currentTeam,
@@ -178,13 +169,17 @@ const TurnScreen = () => {
             seconds: timeLeft,
           };
           sessionStorage.setItem('carryOver', JSON.stringify(carry));
+        } else if (typeof window !== 'undefined') {
+          sessionStorage.removeItem('carryOver');
         }
 
         toast.success(`¡Ronda ${gameState.currentRound} completada! Continuando...`);
 
+        // CLAVE: al cambiar de ronda, el MISMO equipo continúa (según tu regla)
         setTimeout(() => {
           updateGameState({
             currentRound: gameState.currentRound + 1,
+            currentTeam: currentTeam, // <-- evita que cambie el equipo y se pierda el bonus
             screen: 'round-start',
           });
         }, 1500);
@@ -244,6 +239,7 @@ const TurnScreen = () => {
     resetGame();
   };
 
+  // Si no hay papelito, pantalla fallback
   if (!currentPapelito) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
@@ -267,7 +263,7 @@ const TurnScreen = () => {
   return (
     <div className="h-screen p-3 flex flex-col overflow-hidden">
       <div className="max-w-2xl mx-auto w-full flex flex-col flex-1 gap-2 overflow-hidden">
-        {/* Header Info - Compact */}
+        {/* Header Info */}
         <div className="flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
             <Badge
@@ -287,7 +283,7 @@ const TurnScreen = () => {
           </div>
         </div>
 
-        {/* Timer - Compact */}
+        {/* Timer */}
         <Card
           className={`paper-card border shrink-0 ${
             isUrgent ? 'border-destructive timer-urgent' : 'border-border'
@@ -301,11 +297,7 @@ const TurnScreen = () => {
                   {timeLeft > gameState.config.turnTime ? '⭐ BONUS' : 'Tiempo'}
                 </span>
               </div>
-              <div
-                className={`text-2xl font-bold ${
-                  isUrgent ? 'text-destructive' : 'text-foreground'
-                }`}
-              >
+              <div className={`text-2xl font-bold ${isUrgent ? 'text-destructive' : 'text-foreground'}`}>
                 {timeLeft}s
               </div>
             </div>
@@ -317,7 +309,7 @@ const TurnScreen = () => {
           </CardContent>
         </Card>
 
-        {/* Papelito Card - Compact */}
+        {/* Papelito Card */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPapelito.id}
@@ -333,18 +325,14 @@ const TurnScreen = () => {
                   <Badge variant="outline" className="border-primary text-primary text-xs font-semibold px-2 py-0">
                     #{currentPool.length - currentPapelitoIndex}
                   </Badge>
-                  <div className="text-xs text-muted-foreground">
-                    {isRevealing ? '👁️' : '🔒'}
-                  </div>
+                  <div className="text-xs text-muted-foreground">{isRevealing ? '👁️' : '🔒'}</div>
                 </div>
               </CardHeader>
               <CardContent className="flex-1 relative z-10 p-3 pt-1 overflow-y-auto">
                 {!isRevealing ? (
                   <div className="h-full flex flex-col items-center justify-center text-center py-4">
                     <EyeOff className="w-12 h-12 text-muted-foreground opacity-50 mb-2" />
-                    <p className="text-sm font-semibold text-foreground">
-                      Mantén presionado para ver
-                    </p>
+                    <p className="text-sm font-semibold text-foreground">Mantén presionado para ver</p>
                   </div>
                 ) : (
                   <div className="space-y-3">
@@ -367,9 +355,7 @@ const TurnScreen = () => {
                               key={index}
                               className="p-1.5 bg-destructive/10 rounded border border-destructive/30 text-center"
                             >
-                              <p className="text-xs font-semibold text-destructive truncate">
-                                {restriccion}
-                              </p>
+                              <p className="text-xs font-semibold text-destructive truncate">{restriccion}</p>
                             </div>
                           ))}
                         </div>
@@ -378,9 +364,7 @@ const TurnScreen = () => {
 
                     {(!currentPapelito.restricciones || currentPapelito.restricciones.length === 0) && (
                       <div className="p-2 bg-success/10 rounded border border-success/30">
-                        <p className="text-xs text-success font-semibold text-center">
-                          😊 Modo Fácil
-                        </p>
+                        <p className="text-xs text-success font-semibold text-center">😊 Modo Fácil</p>
                       </div>
                     )}
                   </div>
@@ -390,7 +374,7 @@ const TurnScreen = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Action Buttons - Compact */}
+        {/* Action Buttons */}
         <div className="space-y-2 shrink-0">
           {!isRunning && !turnEnded && (
             <Button
@@ -416,12 +400,12 @@ const TurnScreen = () => {
                   ref={revealButtonRef}
                   onMouseDown={(e) => {
                     e.preventDefault();
-                    handleRevealPress();
+                    setIsRevealing(true);
                   }}
                   onTouchStart={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    handleRevealPress();
+                    setIsRevealing(true);
                   }}
                   onTouchMove={(e) => {
                     e.preventDefault();
@@ -478,7 +462,7 @@ const TurnScreen = () => {
           )}
         </div>
 
-        {/* Score Display - Compact */}
+        {/* Score */}
         <div className="grid grid-cols-2 gap-2 shrink-0">
           <Card className="paper-card border border-primary/30">
             <CardContent className="p-2 text-center relative z-10">
@@ -494,7 +478,7 @@ const TurnScreen = () => {
           </Card>
         </div>
 
-        {/* Restart Button - Smaller */}
+        {/* Restart */}
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button
