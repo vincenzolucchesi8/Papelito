@@ -69,7 +69,15 @@ const RoundStart = () => {
   const Icon = currentRoundInfo.icon;
 
   const handleStart = () => {
-    startNewRound();
+    // Solo iniciar nueva ronda si el pool no existe para esta ronda
+    const currentRoundPool = gameState.roundPools[gameState.currentRound];
+    if (!currentRoundPool || currentRoundPool.length === 0) {
+      // Es el inicio de la ronda o el pool está vacío
+      // Solo crear pool si es el inicio (no hay pool todavía)
+      if (!currentRoundPool) {
+        startNewRound();
+      }
+    }
     // Pasar el tiempo restante si existe
     if (timeRemaining) {
       sessionStorage.setItem('startWithTime', timeRemaining.toString());
