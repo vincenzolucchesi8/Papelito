@@ -140,11 +140,14 @@ frontend:
     file: "frontend/src/pages/Teams.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "Compacted team cards and input, grid layout for teams"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: Teams screen fits perfectly in 390x844 mobile viewport without scroll. Auto-assignment and manual assignment both work correctly."
 
   - task: "PapelitosInput screen - no scroll required"
     implemented: true
@@ -152,11 +155,14 @@ frontend:
     file: "frontend/src/pages/PapelitosInput.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "Compact form, combined papelitos list into main card"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: Both handoff screen and input form fit perfectly in mobile viewport. All elements visible without scroll."
 
   - task: "TurnScreen - no scroll required"
     implemented: true
@@ -164,11 +170,14 @@ frontend:
     file: "frontend/src/pages/TurnScreen.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "Fully optimized with compact timer, card, buttons and scores"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: TurnScreen fits perfectly in 390x844 viewport. Timer, papelito card, buttons, and scores all visible without scroll. Layout remains stable during gameplay."
 
   - task: "Hold to reveal button - no text selection"
     implemented: true
@@ -176,11 +185,14 @@ frontend:
     file: "frontend/src/pages/TurnScreen.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "Added user-select: none, touch-callout: none, touch-action: manipulation, and onContextMenu prevention"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: Hold-to-reveal button works perfectly. Content shows on mousedown/touchstart and hides on mouseup/touchend. Text selection prevented with CSS user-select: none. No text selection occurs on long press."
 
   - task: "RoundStart screen - no scroll required"
     implemented: true
