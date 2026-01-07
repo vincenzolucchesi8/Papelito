@@ -83,160 +83,131 @@ const RoundStart = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 py-8 flex items-center justify-center">
-      <div className="max-w-2xl w-full space-y-6">
+    <div className="h-screen p-3 flex flex-col overflow-hidden">
+      <div className="max-w-2xl mx-auto w-full flex flex-col flex-1 gap-3">
         {/* Round Badge */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="text-center"
+          transition={{ duration: 0.3 }}
+          className="text-center shrink-0"
         >
-          <Badge className="px-6 py-2 text-lg bg-primary text-primary-foreground font-bold">
+          <Badge className="px-4 py-1 text-sm bg-primary text-primary-foreground font-bold">
             Ronda {gameState.currentRound} de 3
           </Badge>
         </motion.div>
 
-        {/* Main Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <Card className="paper-card border-2 border-primary">
-            <CardContent className="p-8 space-y-6 relative z-10">
-              {/* Icon */}
-              <div className="flex justify-center">
-                <motion.div
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  className="p-6 bg-primary/10 rounded-full"
-                >
-                  <Icon className="w-16 h-16 text-primary" strokeWidth={1.5} />
-                </motion.div>
+        {/* Main Card - Compact */}
+        <Card className="paper-card border-2 border-primary flex-1 min-h-0 flex flex-col">
+          <CardContent className="p-4 flex flex-col flex-1 min-h-0 relative z-10">
+            {/* Icon & Title */}
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 bg-primary/10 rounded-full shrink-0">
+                <Icon className="w-8 h-8 text-primary" strokeWidth={1.5} />
               </div>
-
-              {/* Title */}
-              <div className="text-center space-y-2">
-                <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+              <div>
+                <h1 className="text-lg font-bold text-foreground leading-tight">
                   {currentRoundInfo.title}
                 </h1>
-                <p className="text-lg text-muted-foreground">
+                <p className="text-xs text-muted-foreground">
                   {currentRoundInfo.description}
                 </p>
               </div>
+            </div>
 
-              {/* Rules */}
-              <div className="space-y-3 pt-4">
-                <h3 className="font-semibold text-lg">Reglas:</h3>
-                <ul className="space-y-2">
-                  {currentRoundInfo.rules.map((rule, index) => (
-                    <motion.li
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 + index * 0.1 }}
-                      className="flex items-start gap-3 text-base"
-                    >
-                      <span className="text-primary font-bold flex-shrink-0">•</span>
-                      <span>{rule}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-                
-                {/* Important note about holding button */}
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 }}
-                  className="mt-4 space-y-2"
-                >
-                  <div className="p-4 bg-primary/10 rounded-lg border-2 border-primary/30">
-                    <p className="text-sm font-semibold text-primary">
-                      💡 Mantén presionado el botón para ver el papelito durante tu turno
-                    </p>
-                  </div>
-                  <div className="p-4 bg-destructive/10 rounded-lg border-2 border-destructive/30">
-                    <p className="text-sm font-semibold text-destructive">
-                      {gameState.config.easyMode 
-                        ? '⚠️ Si mencionas la respuesta: presiona "FALTA" para ceder el turno'
-                        : '⚠️ Si mencionas palabra prohibida: presiona "FALTA" para ceder el turno'}
-                    </p>
-                  </div>
-                </motion.div>
+            {/* Rules - Scrollable if needed */}
+            <div className="flex-1 min-h-0 overflow-y-auto">
+              <h3 className="font-semibold text-sm mb-2">Reglas:</h3>
+              <ul className="space-y-1.5 text-sm">
+                {currentRoundInfo.rules.map((rule, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <span className="text-primary font-bold shrink-0">•</span>
+                    <span className="text-xs">{rule}</span>
+                  </li>
+                ))}
+              </ul>
+              
+              {/* Tips */}
+              <div className="mt-3 space-y-1.5">
+                <div className="p-2 bg-primary/10 rounded border border-primary/30">
+                  <p className="text-xs font-semibold text-primary">
+                    💡 Mantén presionado para ver el papelito
+                  </p>
+                </div>
+                <div className="p-2 bg-destructive/10 rounded border border-destructive/30">
+                  <p className="text-xs font-semibold text-destructive">
+                    {gameState.config.easyMode 
+                      ? '⚠️ Si dices la respuesta: "FALTA"'
+                      : '⚠️ Palabra prohibida: "FALTA"'}
+                  </p>
+                </div>
               </div>
+            </div>
 
-              {/* Scores */}
-              <div className="pt-4 border-t border-border">
-                <div className="grid grid-cols-2 gap-4 text-center">
-                  <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
-                    <div className="text-sm text-muted-foreground mb-1">
-                      {gameState.teamNames?.A || 'Equipo A'}
-                    </div>
-                    <div className="text-3xl font-bold text-primary">
-                      {gameState.scores.A}
-                    </div>
+            {/* Scores - Compact */}
+            <div className="pt-3 border-t border-border mt-3 shrink-0">
+              <div className="grid grid-cols-2 gap-3 text-center">
+                <div className="p-2 bg-primary/5 rounded border border-primary/20">
+                  <div className="text-xs text-muted-foreground">
+                    {gameState.teamNames?.A || 'Equipo A'}
                   </div>
-                  <div className="p-4 bg-accent/5 rounded-lg border border-accent/20">
-                    <div className="text-sm text-muted-foreground mb-1">
-                      {gameState.teamNames?.B || 'Equipo B'}
-                    </div>
-                    <div className="text-3xl font-bold text-accent">
-                      {gameState.scores.B}
-                    </div>
+                  <div className="text-xl font-bold text-primary">
+                    {gameState.scores.A}
+                  </div>
+                </div>
+                <div className="p-2 bg-accent/5 rounded border border-accent/20">
+                  <div className="text-xs text-muted-foreground">
+                    {gameState.teamNames?.B || 'Equipo B'}
+                  </div>
+                  <div className="text-xl font-bold text-accent">
+                    {gameState.scores.B}
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+            </div>
+          </CardContent>
+        </Card>
 
-        {/* Start Button */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="space-y-3"
-        >
+        {/* Buttons - Compact */}
+        <div className="space-y-2 shrink-0">
           <Button
             onClick={handleStart}
             size="lg"
-            className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-16 text-lg shadow-lg"
+            className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-12 text-base shadow-lg"
           >
             Iniciar Turno
           </Button>
           
-          {/* Restart Button with Confirmation */}
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button
-                variant="outline"
-                size="lg"
-                className="w-full btn-paper border-2 border-destructive/50 text-destructive hover:bg-destructive/10"
+                variant="ghost"
+                size="sm"
+                className="w-full text-muted-foreground hover:text-destructive h-8 text-xs"
               >
-                <RotateCcw className="w-4 h-4 mr-2" />
+                <RotateCcw className="w-3 h-3 mr-1" />
                 Reiniciar Partida
               </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent className="paper-card">
+            <AlertDialogContent className="paper-card max-w-xs">
               <AlertDialogHeader>
-                <AlertDialogTitle>¿Reiniciar partida?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Se perderá todo el progreso actual: puntajes, rondas y papelitos. Esta acción no se puede deshacer.
+                <AlertDialogTitle className="text-base">¿Reiniciar partida?</AlertDialogTitle>
+                <AlertDialogDescription className="text-sm">
+                  Se perderá todo el progreso.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel className="btn-paper">Cancelar</AlertDialogCancel>
+                <AlertDialogCancel className="btn-paper h-9 text-sm">Cancelar</AlertDialogCancel>
                 <AlertDialogAction 
                   onClick={handleRestart}
-                  className="btn-paper bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  className="btn-paper bg-destructive text-destructive-foreground hover:bg-destructive/90 h-9 text-sm"
                 >
-                  Sí, reiniciar
+                  Reiniciar
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
