@@ -111,6 +111,23 @@ const TurnScreen = () => {
     setIsRevealing(false);
   };
 
+  // Global listeners for touch/mouse release
+  useEffect(() => {
+    const handleGlobalRelease = () => {
+      setIsRevealing(false);
+    };
+
+    window.addEventListener('mouseup', handleGlobalRelease);
+    window.addEventListener('touchend', handleGlobalRelease);
+    window.addEventListener('touchcancel', handleGlobalRelease);
+
+    return () => {
+      window.removeEventListener('mouseup', handleGlobalRelease);
+      window.removeEventListener('touchend', handleGlobalRelease);
+      window.removeEventListener('touchcancel', handleGlobalRelease);
+    };
+  }, []);
+
   const handleStart = () => {
     setIsRunning(true);
   };
