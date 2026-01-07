@@ -79,21 +79,21 @@ const Teams = () => {
   );
 
   return (
-    <div className="min-h-screen p-4 py-8">
-      <div className="max-w-2xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-4">
+    <div className="h-screen p-3 flex flex-col overflow-hidden">
+      <div className="max-w-2xl mx-auto w-full flex flex-col flex-1 gap-3 overflow-hidden">
+        {/* Header - Compact */}
+        <div className="flex items-center gap-3 shrink-0">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => updateGameState({ screen: 'configuration' })}
-            className="btn-paper"
+            className="btn-paper h-9 w-9"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-5 h-5" />
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Equipos</h1>
-            <p className="text-muted-foreground text-sm">Divide a los jugadores</p>
+            <h1 className="text-2xl font-bold text-foreground">Equipos</h1>
+            <p className="text-muted-foreground text-xs">Divide a los jugadores</p>
           </div>
         </div>
 
@@ -102,14 +102,14 @@ const Teams = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="space-y-4"
+            className="flex-1 flex flex-col justify-center"
           >
             <Card className="paper-card border-2 border-border">
-              <CardContent className="p-6 space-y-4 relative z-10">
+              <CardContent className="p-4 space-y-3 relative z-10">
                 <Button
                   onClick={autoAssignTeams}
                   size="lg"
-                  className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-16 text-base"
+                  className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-14 text-base"
                 >
                   <Shuffle className="w-5 h-5 mr-2" />
                   Asignación Automática
@@ -118,7 +118,7 @@ const Teams = () => {
                   onClick={manualAssignTeams}
                   variant="outline"
                   size="lg"
-                  className="w-full btn-paper border-2 font-semibold h-16 text-base"
+                  className="w-full btn-paper border-2 font-semibold h-14 text-base"
                 >
                   <Users2 className="w-5 h-5 mr-2" />
                   Asignación Manual
@@ -128,40 +128,29 @@ const Teams = () => {
           </motion.div>
         )}
 
-        {/* Team Names Input */}
+        {/* Team Names Input - Compact */}
         {assignmentMode && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
+            className="shrink-0"
           >
-            <Card className="paper-card border-2 border-primary/30">
-              <CardHeader>
-                <CardTitle className="text-base">Nombres de Equipos (opcional)</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 relative z-10">
-                <div className="space-y-2">
-                  <Label htmlFor="teamA" className="text-sm font-medium">
-                    Nombre Equipo 1
-                  </Label>
+            <Card className="paper-card border border-primary/30">
+              <CardContent className="p-3 relative z-10">
+                <p className="text-xs text-muted-foreground mb-2">Nombres de Equipos (opcional)</p>
+                <div className="grid grid-cols-2 gap-2">
                   <Input
-                    id="teamA"
                     placeholder="Equipo A"
                     value={teamNames.A}
                     onChange={(e) => setTeamNames({ ...teamNames, A: e.target.value || 'Equipo A' })}
-                    className="border-2"
+                    className="border h-9 text-sm"
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="teamB" className="text-sm font-medium">
-                    Nombre Equipo 2
-                  </Label>
                   <Input
-                    id="teamB"
                     placeholder="Equipo B"
                     value={teamNames.B}
                     onChange={(e) => setTeamNames({ ...teamNames, B: e.target.value || 'Equipo B' })}
-                    className="border-2"
+                    className="border h-9 text-sm"
                   />
                 </div>
               </CardContent>
