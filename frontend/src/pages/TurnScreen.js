@@ -459,52 +459,52 @@ const TurnScreen = () => {
           )}
         </div>
 
-        {/* Score Display */}
-        <div className="grid grid-cols-2 gap-3">
+        {/* Score Display - Compact */}
+        <div className="grid grid-cols-2 gap-2 shrink-0">
           <Card className="paper-card border border-primary/30">
-            <CardContent className="p-4 text-center relative z-10">
-              <div className="text-xs text-muted-foreground mb-1">
+            <CardContent className="p-2 text-center relative z-10">
+              <div className="text-xs text-muted-foreground">
                 {gameState.teamNames?.A || 'Equipo A'}
               </div>
-              <div className="text-2xl font-bold text-primary">{gameState.scores.A}</div>
+              <div className="text-xl font-bold text-primary">{gameState.scores.A}</div>
             </CardContent>
           </Card>
           <Card className="paper-card border border-accent/30">
-            <CardContent className="p-4 text-center relative z-10">
-              <div className="text-xs text-muted-foreground mb-1">
+            <CardContent className="p-2 text-center relative z-10">
+              <div className="text-xs text-muted-foreground">
                 {gameState.teamNames?.B || 'Equipo B'}
               </div>
-              <div className="text-2xl font-bold text-accent">{gameState.scores.B}</div>
+              <div className="text-xl font-bold text-accent">{gameState.scores.B}</div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Restart Button */}
+        {/* Restart Button - Smaller */}
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button
-              variant="outline"
+              variant="ghost"
               size="sm"
-              className="w-full btn-paper border border-muted-foreground/30 text-muted-foreground hover:border-destructive hover:text-destructive"
+              className="w-full text-muted-foreground hover:text-destructive text-xs h-8 shrink-0"
             >
-              <RotateCcw className="w-3 h-3 mr-2" />
-              Reiniciar Partida
+              <RotateCcw className="w-3 h-3 mr-1" />
+              Reiniciar
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent className="paper-card max-w-sm">
+          <AlertDialogContent className="paper-card max-w-xs">
             <AlertDialogHeader>
-              <AlertDialogTitle>¿Reiniciar partida?</AlertDialogTitle>
-              <AlertDialogDescription>
-                Se perderá todo el progreso actual. Esta acción no se puede deshacer.
+              <AlertDialogTitle className="text-base">¿Reiniciar partida?</AlertDialogTitle>
+              <AlertDialogDescription className="text-sm">
+                Se perderá todo el progreso.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel className="btn-paper">Cancelar</AlertDialogCancel>
+              <AlertDialogCancel className="btn-paper h-9 text-sm">Cancelar</AlertDialogCancel>
               <AlertDialogAction 
                 onClick={handleRestart}
-                className="btn-paper bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                className="btn-paper bg-destructive text-destructive-foreground hover:bg-destructive/90 h-9 text-sm"
               >
-                Sí, reiniciar
+                Reiniciar
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
