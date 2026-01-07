@@ -288,67 +288,59 @@ const TurnScreen = () => {
           </CardContent>
         </Card>
 
-        {/* Papelito Card */}
+        {/* Papelito Card - Compact */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPapelito.id}
             initial={{ opacity: 0, rotateY: -90 }}
             animate={{ opacity: 1, rotateY: 0 }}
             exit={{ opacity: 0, rotateY: 90 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
+            className="flex-1 min-h-0"
           >
-            <Card className="paper-elevated border-2 border-primary bg-gradient-to-br from-card to-secondary">
-              <CardHeader className="pb-3">
+            <Card className="paper-elevated border border-primary bg-gradient-to-br from-card to-secondary h-full flex flex-col">
+              <CardHeader className="pb-1 pt-2 px-3 shrink-0">
                 <div className="flex items-center justify-between">
-                  <Badge variant="outline" className="border-primary text-primary font-semibold">
-                    Papelito #{currentPool.length - currentPapelitoIndex}
+                  <Badge variant="outline" className="border-primary text-primary text-xs font-semibold px-2 py-0">
+                    #{currentPool.length - currentPapelitoIndex}
                   </Badge>
-                  <div className="text-xs text-muted-foreground font-medium">
-                    {isRevealing ? '👁️ Visible' : '🔒 Oculto'}
+                  <div className="text-xs text-muted-foreground">
+                    {isRevealing ? '👁️' : '🔒'}
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-6 relative z-10">
+              <CardContent className="flex-1 relative z-10 p-3 pt-1 overflow-y-auto">
                 {!isRevealing ? (
-                  <div className="py-16 text-center space-y-4">
-                    <EyeOff className="w-20 h-20 mx-auto text-muted-foreground opacity-50" />
-                    <div className="space-y-2">
-                      <p className="text-lg font-semibold text-foreground">
-                        Mantén presionado el botón
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        para ver la respuesta y restricciones
-                      </p>
-                    </div>
+                  <div className="h-full flex flex-col items-center justify-center text-center py-4">
+                    <EyeOff className="w-12 h-12 text-muted-foreground opacity-50 mb-2" />
+                    <p className="text-sm font-semibold text-foreground">
+                      Mantén presionado para ver
+                    </p>
                   </div>
                 ) : (
-                  <>
+                  <div className="space-y-3">
                     {/* Respuesta */}
-                    <div className="space-y-2">
-                      <Label className="text-sm text-muted-foreground font-semibold uppercase tracking-wide">
-                        Respuesta
-                      </Label>
-                      <div className="p-6 bg-primary/10 rounded-xl border-2 border-primary/30">
-                        <p className="text-3xl font-bold text-center text-foreground">
-                          {currentPapelito.respuesta}
-                        </p>
-                      </div>
+                    <div className="p-3 bg-primary/10 rounded-lg border border-primary/30">
+                      <p className="text-xs text-muted-foreground mb-1">Respuesta</p>
+                      <p className="text-xl font-bold text-center text-foreground">
+                        {currentPapelito.respuesta}
+                      </p>
                     </div>
 
                     {/* Restricciones */}
                     {currentPapelito.restricciones && currentPapelito.restricciones.length > 0 && (
-                      <div className="space-y-3">
-                        <Label className="text-sm font-semibold uppercase tracking-wide flex items-center gap-2 text-destructive">
-                          <AlertTriangle className="w-4 h-4" />
-                          Palabras Prohibidas
-                        </Label>
-                        <div className="space-y-2">
+                      <div className="space-y-1.5">
+                        <p className="text-xs font-semibold text-destructive flex items-center gap-1">
+                          <AlertTriangle className="w-3 h-3" />
+                          Prohibidas
+                        </p>
+                        <div className="grid grid-cols-3 gap-1.5">
                           {currentPapelito.restricciones.map((restriccion, index) => (
                             <div
                               key={index}
-                              className="p-3 bg-destructive/10 rounded-lg border border-destructive/30"
+                              className="p-1.5 bg-destructive/10 rounded border border-destructive/30 text-center"
                             >
-                              <p className="text-base font-semibold text-destructive text-center">
+                              <p className="text-xs font-semibold text-destructive truncate">
                                 {restriccion}
                               </p>
                             </div>
@@ -357,15 +349,15 @@ const TurnScreen = () => {
                       </div>
                     )}
 
-                    {/* Easy Mode Indicator */}
+                    {/* Easy Mode */}
                     {(!currentPapelito.restricciones || currentPapelito.restricciones.length === 0) && (
-                      <div className="p-4 bg-success/10 rounded-lg border border-success/30">
-                        <p className="text-sm text-success font-semibold text-center">
-                          😊 Modo Fácil - Sin restricciones
+                      <div className="p-2 bg-success/10 rounded border border-success/30">
+                        <p className="text-xs text-success font-semibold text-center">
+                          😊 Modo Fácil
                         </p>
                       </div>
                     )}
-                  </>
+                  </div>
                 )}
               </CardContent>
             </Card>
