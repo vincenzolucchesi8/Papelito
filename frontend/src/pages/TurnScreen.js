@@ -21,51 +21,90 @@ import {
 
 const TurnScreen = () => {
   const { gameState, updateGameState, markPapelitoCorrecto, nextTurn, resetGame } = useGame();
-  
-  // Inicializar con tiempo guardado si existe (continuación de ronda anterior)
-  const savedTime = sessionStorage.getItem('startWithTime');
-  const initialTime = savedTime && parseInt(savedTime) > 0 
-    ? parseInt(savedTime) 
-    : gameState.config.turnTime;
-  
-  const [timeLeft, setTimeLeft] = useState(initialTime);
-  const [isRunning, setIsRunning] = useState(false);
-  const [currentPapelitoIndex, setCurrentPapelitoIndex] = useState(0);
-  const [isRevealing, setIsRevealing] = useState(false);
-  const [turnEnded, setTurnEnded] = useState(false);
-  const revealButtonRef = useRef(null);
-  
-  // Limpiar tiempo guardado después de usarlo
-  useEffect(() => {
-    if (savedTime) {
-      sessionStorage.removeItem('startWithTime');
-    }
-  }, [savedTime]);
 
   const currentPool = gameState.roundPools[gameState.currentRound] || [];
+  const [currentPapelitoIndex, setCurrentPapelitoIndex] = useState(0);
   const currentPapelito = currentPool[currentPapelitoIndex];
+
   const currentTeam = gameState.currentTeam;
   const currentTeamPlayers = gameState.teams[currentTeam];
   const currentPlayer = currentTeamPlayers[gameState.currentPlayerIndex];
   const teamName = gameState.teamNames?.[currentTeam] || `Equipo ${currentTeam}`;
 
+  /**
+   * BONUS/CARRY-OVER FIX:
+   * - El tiempo restante al completar una ronda se guarda con scope: {team, round, seconds}
+   * - Solo se aplica si coincide con equipo y ronda actuales, y se consume una vez.
+   */
+  const getInitialTime = () => {
+    // Default
+    const fallback = gameState.config.turnTime;
+
+    if (typeof window === 'undefined') return fallback;
+
+    // Limpieza defensiva: si quedó lógica antigua
+    const legacyRemaining = sessionStorage.getItem('remainingTime');
+    if (legacyRemaining) sessionStorage.removeItem('remainingTime');
+    const legacyStart = sessionStorage.getItem('startWithTime');
+    if (legacyStart) sessionStorage.removeItem('startWithTime');
+
+    const raw = sessionStorage.getItem('carryOver');
+    if (!raw) return fallback;
+
+    try {
+      const c = JSON.parse(raw);
+      const isMatch =
+        c &&
+        c.team === currentTeam &&
+        c.round === gameState.currentRound &&
+        Number.isFinite(c.seconds) &&
+        c.seconds > 0;
+
+      if (isMatch) {
+        // Consumir para que NO afecte a otros turnos/equipos
+        sessionStorage.removeItem('carryOver');
+        return c.seconds;
+      }
+
+      // Si no coincide, no lo consumimos todavía (puede ser para el otro equipo/otro momento)
+      return fallback;
+    } catch {
+      sessionStorage.removeItem('carryOver');
+      return fallback;
+    }
+  };
+
+  const [timeLeft, setTimeLeft] = useState(getInitialTime);
+  const [isRunning, setIsRunning] = useState(false);
+  const [isRevealing, setIsRevealing] = useState(false);
+  const [turnEnded, setTurnEnded] = useState(false);
+  const revealButtonRef = useRef(null);
+
+  // Re-inicializar el tiempo si cambia de equipo o ronda (nuevo turno real)
+  useEffect(() => {
+    setIsRunning(false);
+    setTurnEnded(false);
+    setIsRevealing(false);
+    setCurrentPapelitoIndex(0);
+    setTimeLeft(getInitialTime());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTeam, gameState.currentRound]);
+
   const totalTime = gameState.config.turnTime;
   const progress = (timeLeft / totalTime) * 100;
   const isUrgent = timeLeft <= 10;
 
-  // Handle time up - declare before timer effect
   const handleTimeUp = React.useCallback(() => {
     setIsRunning(false);
     setTurnEnded(true);
-    
-    // Alerta visual y sonora
+
     if (gameState.config.soundEnabled) {
-      // Reproducir sonido de alarma
-      const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGnOPyvmwhBziK0fPTgjMGHm7A7+OZSR0KT6Pd8bllHgU7k9z0yoA');
+      const audio = new Audio(
+        'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGnOPyvmwhBziK0fPTgjMGHm7A7+OZSR0KT6Pd8bllHgU7k9z0yoA'
+      );
       audio.play().catch(() => {});
     }
-    
-    // Alerta visual con toast
+
     toast.error('⏰ ¡SE ACABÓ EL TIEMPO!', {
       duration: 3000,
       style: {
@@ -77,7 +116,7 @@ const TurnScreen = () => {
     });
   }, [gameState.config.soundEnabled]);
 
-  // Timer effect
+  // Timer effect (tu lógica está bien; solo ojo que recrea interval cada tick, pero funciona)
   useEffect(() => {
     if (!isRunning || timeLeft <= 0) return;
 
@@ -95,27 +134,17 @@ const TurnScreen = () => {
     return () => clearInterval(timer);
   }, [isRunning, timeLeft, handleTimeUp]);
 
-  // Play paper sound on mount (if enabled)
   useEffect(() => {
     if (gameState.config.soundEnabled) {
       // Paper shuffle sound would play here
     }
   }, [gameState.config.soundEnabled]);
 
-  // Handle reveal button press
-  const handleRevealPress = () => {
-    setIsRevealing(true);
-  };
+  const handleRevealPress = () => setIsRevealing(true);
+  const handleRevealRelease = () => setIsRevealing(false);
 
-  const handleRevealRelease = () => {
-    setIsRevealing(false);
-  };
-
-  // Global listeners for touch/mouse release
   useEffect(() => {
-    const handleGlobalRelease = () => {
-      setIsRevealing(false);
-    };
+    const handleGlobalRelease = () => setIsRevealing(false);
 
     window.addEventListener('mouseup', handleGlobalRelease);
     window.addEventListener('touchend', handleGlobalRelease);
@@ -128,41 +157,44 @@ const TurnScreen = () => {
     };
   }, []);
 
-  const handleStart = () => {
-    setIsRunning(true);
-  };
+  const handleStart = () => setIsRunning(true);
 
   const handleAdivinado = () => {
     if (!currentPapelito) return;
 
     markPapelitoCorrecto(currentPapelito);
-    
-    if (gameState.config.soundEnabled) {
-      // Success sound would play here
-    }
 
-    // Check if pool is empty after marking
+    // Check if pool is empty after marking (local)
     const updatedPool = currentPool.filter((p) => p.id !== currentPapelito.id);
-    
+
     if (updatedPool.length === 0) {
       // Pool vacío - verificar si hay más rondas
       if (gameState.currentRound < 3) {
-        // Guardar tiempo restante para siguiente ronda
-        sessionStorage.setItem('remainingTime', timeLeft.toString());
-        
-        // Hay más rondas - continuar con tiempo restante
+        // Guardar tiempo restante para la SIGUIENTE ronda, pero scoped al equipo actual
+        if (typeof window !== 'undefined' && timeLeft > 0) {
+          const carry = {
+            team: currentTeam,
+            round: gameState.currentRound + 1,
+            seconds: timeLeft,
+          };
+          sessionStorage.setItem('carryOver', JSON.stringify(carry));
+        }
+
         toast.success(`¡Ronda ${gameState.currentRound} completada! Continuando...`);
-        
-        // Avanzar a siguiente ronda automáticamente
+
         setTimeout(() => {
-          updateGameState({ 
+          updateGameState({
             currentRound: gameState.currentRound + 1,
-            screen: 'round-start' 
+            screen: 'round-start',
           });
         }, 1500);
       } else {
         // Última ronda completada
-        sessionStorage.removeItem('remainingTime');
+        if (typeof window !== 'undefined') {
+          sessionStorage.removeItem('carryOver');
+          sessionStorage.removeItem('remainingTime');
+          sessionStorage.removeItem('startWithTime');
+        }
         toast.success('¡Todas las rondas completadas!');
         setTimeout(() => {
           updateGameState({ screen: 'final' });
@@ -177,24 +209,20 @@ const TurnScreen = () => {
   };
 
   const handleFalta = () => {
-    // Detener el timer
     setIsRunning(false);
     setTurnEnded(true);
-    
-    // El papelito NO se marca como adivinado (vuelve al pool)
-    // NO se suma punto
-    
+
     if (gameState.config.soundEnabled) {
-      // Sonido de error/buzzer
-      const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGnOPyvmwhBziK0fPTgjMGHm7A7+OZSR0KT6Pd8bllHgU7k9z0yoA');
+      const audio = new Audio(
+        'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGnOPyvmwhBziK0fPTgjMGHm7A7+OZSR0KT6Pd8bllHgU7k9z0yoA'
+      );
       audio.play().catch(() => {});
     }
-    
-    // Alerta visual - mensaje según el modo
-    const message = gameState.config.easyMode 
+
+    const message = gameState.config.easyMode
       ? '⚠️ FALTA! Mencionaron la respuesta'
       : '⚠️ FALTA! Mencionaron palabra prohibida';
-    
+
     toast.error(message, {
       duration: 3000,
       style: {
@@ -270,7 +298,7 @@ const TurnScreen = () => {
               <div className="flex items-center gap-1.5">
                 <Clock className={`w-4 h-4 ${isUrgent ? 'text-destructive' : 'text-primary'}`} />
                 <span className="text-xs text-muted-foreground">
-                  {initialTime > gameState.config.turnTime ? '⭐ BONUS' : 'Tiempo'}
+                  {timeLeft > gameState.config.turnTime ? '⭐ BONUS' : 'Tiempo'}
                 </span>
               </div>
               <div
@@ -320,7 +348,6 @@ const TurnScreen = () => {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {/* Respuesta */}
                     <div className="p-3 bg-primary/10 rounded-lg border border-primary/30">
                       <p className="text-xs text-muted-foreground mb-1">Respuesta</p>
                       <p className="text-xl font-bold text-center text-foreground">
@@ -328,7 +355,6 @@ const TurnScreen = () => {
                       </p>
                     </div>
 
-                    {/* Restricciones */}
                     {currentPapelito.restricciones && currentPapelito.restricciones.length > 0 && (
                       <div className="space-y-1.5">
                         <p className="text-xs font-semibold text-destructive flex items-center gap-1">
@@ -350,7 +376,6 @@ const TurnScreen = () => {
                       </div>
                     )}
 
-                    {/* Easy Mode */}
                     {(!currentPapelito.restricciones || currentPapelito.restricciones.length === 0) && (
                       <div className="p-2 bg-success/10 rounded border border-success/30">
                         <p className="text-xs text-success font-semibold text-center">
@@ -379,13 +404,12 @@ const TurnScreen = () => {
 
           {isRunning && !turnEnded && (
             <>
-              {/* Hold to reveal button - Fixed for mobile text selection */}
-              <div 
+              <div
                 className="relative select-none"
-                style={{ 
+                style={{
                   WebkitTouchCallout: 'none',
                   WebkitUserSelect: 'none',
-                  userSelect: 'none'
+                  userSelect: 'none',
                 }}
               >
                 <Button
@@ -406,25 +430,22 @@ const TurnScreen = () => {
                   size="lg"
                   variant="outline"
                   className={`w-full btn-paper border-2 font-bold h-12 text-sm transition-colors select-none ${
-                    isRevealing 
-                      ? 'bg-primary/20 border-primary' 
-                      : 'border-primary hover:bg-primary/5'
+                    isRevealing ? 'bg-primary/20 border-primary' : 'border-primary hover:bg-primary/5'
                   }`}
-                  style={{ 
-                    userSelect: 'none', 
+                  style={{
+                    userSelect: 'none',
                     WebkitUserSelect: 'none',
                     WebkitTouchCallout: 'none',
                     touchAction: 'manipulation',
                     MozUserSelect: 'none',
-                    msUserSelect: 'none'
+                    msUserSelect: 'none',
                   }}
                 >
                   <Eye className="w-4 h-4 mr-1.5" />
                   {isRevealing ? '👁️ Mostrando...' : '🔒 Mantener para Ver'}
                 </Button>
               </div>
-              
-              {/* ADIVINADO Button - GREEN */}
+
               <Button
                 onClick={handleAdivinado}
                 size="lg"
@@ -433,8 +454,7 @@ const TurnScreen = () => {
                 <CheckCircle2 className="w-5 h-5 mr-2" />
                 ADIVINADO (+1)
               </Button>
-              
-              {/* Falta Button - RED */}
+
               <Button
                 onClick={handleFalta}
                 size="lg"
@@ -442,9 +462,7 @@ const TurnScreen = () => {
                 className="w-full btn-paper bg-destructive hover:bg-destructive/90 text-destructive-foreground font-bold h-10 text-sm"
               >
                 <AlertTriangle className="w-4 h-4 mr-1.5" />
-                {gameState.config.easyMode 
-                  ? 'FALTA (Dijo la Respuesta)' 
-                  : 'FALTA (Palabra Prohibida)'}
+                {gameState.config.easyMode ? 'FALTA (Dijo la Respuesta)' : 'FALTA (Palabra Prohibida)'}
               </Button>
             </>
           )}
@@ -464,17 +482,13 @@ const TurnScreen = () => {
         <div className="grid grid-cols-2 gap-2 shrink-0">
           <Card className="paper-card border border-primary/30">
             <CardContent className="p-2 text-center relative z-10">
-              <div className="text-xs text-muted-foreground">
-                {gameState.teamNames?.A || 'Equipo A'}
-              </div>
+              <div className="text-xs text-muted-foreground">{gameState.teamNames?.A || 'Equipo A'}</div>
               <div className="text-xl font-bold text-primary">{gameState.scores.A}</div>
             </CardContent>
           </Card>
           <Card className="paper-card border border-accent/30">
             <CardContent className="p-2 text-center relative z-10">
-              <div className="text-xs text-muted-foreground">
-                {gameState.teamNames?.B || 'Equipo B'}
-              </div>
+              <div className="text-xs text-muted-foreground">{gameState.teamNames?.B || 'Equipo B'}</div>
               <div className="text-xl font-bold text-accent">{gameState.scores.B}</div>
             </CardContent>
           </Card>
@@ -501,7 +515,7 @@ const TurnScreen = () => {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel className="btn-paper h-9 text-sm">Cancelar</AlertDialogCancel>
-              <AlertDialogAction 
+              <AlertDialogAction
                 onClick={handleRestart}
                 className="btn-paper bg-destructive text-destructive-foreground hover:bg-destructive/90 h-9 text-sm"
               >
