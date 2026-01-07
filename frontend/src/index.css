@@ -173,6 +173,18 @@ code {
         box-shadow: 0 4px 12px -2px hsl(var(--primary) / 0.3);
     }
     
+    /* Prevent text selection on touch devices */
+    .no-select,
+    .btn-paper {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
     /* Timer pulse animation */
     @keyframes pulse-glow {
         0%, 100% {

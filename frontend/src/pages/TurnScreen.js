@@ -398,23 +398,45 @@ const TurnScreen = () => {
 
           {isRunning && !turnEnded && (
             <>
-              {/* Hold to reveal button - Fixed version */}
-              <div className="relative">
+              {/* Hold to reveal button - Fixed for mobile text selection */}
+              <div 
+                className="relative select-none"
+                style={{ 
+                  WebkitTouchCallout: 'none',
+                  WebkitUserSelect: 'none',
+                  userSelect: 'none'
+                }}
+              >
                 <Button
                   ref={revealButtonRef}
-                  onMouseDown={handleRevealPress}
-                  onTouchStart={(e) => {
+                  onMouseDown={(e) => {
                     e.preventDefault();
                     handleRevealPress();
                   }}
+                  onTouchStart={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleRevealPress();
+                  }}
+                  onTouchMove={(e) => {
+                    e.preventDefault();
+                  }}
+                  onContextMenu={(e) => e.preventDefault()}
                   size="lg"
                   variant="outline"
-                  className={`w-full btn-paper border-2 font-bold h-16 text-base transition-colors ${
+                  className={`w-full btn-paper border-2 font-bold h-16 text-base transition-colors select-none ${
                     isRevealing 
                       ? 'bg-primary/20 border-primary' 
                       : 'border-primary hover:bg-primary/5'
                   }`}
-                  style={{ userSelect: 'none', touchAction: 'none' }}
+                  style={{ 
+                    userSelect: 'none', 
+                    WebkitUserSelect: 'none',
+                    WebkitTouchCallout: 'none',
+                    touchAction: 'manipulation',
+                    MozUserSelect: 'none',
+                    msUserSelect: 'none'
+                  }}
                 >
                   <Eye className="w-5 h-5 mr-2" />
                   {isRevealing ? '👁️ Mostrando...' : '🔒 Mantener para Ver'}
