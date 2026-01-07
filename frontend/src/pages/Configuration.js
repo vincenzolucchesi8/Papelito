@@ -55,19 +55,19 @@ const Configuration = () => {
   };
 
   return (
-    <div className="min-h-screen p-3 py-4">
-      <div className="max-w-2xl mx-auto space-y-3">
-        {/* Header */}
+    <div className="min-h-screen p-3 py-4 flex flex-col">
+      <div className="max-w-2xl mx-auto w-full space-y-3 flex-1 flex flex-col">
+        {/* Header - Compact */}
         <div className="flex items-center gap-3">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => updateGameState({ screen: 'home' })}
-            className="btn-paper"
+            className="btn-paper h-9 w-9"
           >
             <ChevronLeft className="w-5 h-5" />
           </Button>
-          <div>
+          <div className="flex-1">
             <h1 className="text-2xl font-bold text-foreground">Configuración</h1>
             <p className="text-muted-foreground text-xs">Prepara tu partida</p>
           </div>
@@ -77,25 +77,25 @@ const Configuration = () => {
         <div className="grid grid-cols-2 gap-2">
           {/* Time Selection */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: 0.05 }}
           >
             <Card className="paper-card border border-border">
               <CardHeader className="p-3 pb-2">
-                <CardTitle className="flex items-center gap-2 text-sm">
+                <CardTitle className="flex items-center gap-1.5 text-sm">
                   <Clock className="w-4 h-4 text-primary" />
-                  Tiempo/Turno
+                  <span className="text-xs">Tiempo/Turno</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-3 pt-0 relative z-10">
-                <div className="grid grid-cols-2 gap-2">
+              <CardContent className="p-2 pt-0 relative z-10">
+                <div className="grid grid-cols-2 gap-1.5">
                   {timeOptions.map((time) => (
                     <Button
                       key={time}
                       variant={turnTime === time ? 'default' : 'outline'}
                       size="sm"
-                      className={`btn-paper text-xs ${
+                      className={`btn-paper text-xs h-8 ${
                         turnTime === time
                           ? 'bg-primary text-primary-foreground border-primary'
                           : 'border'
@@ -112,25 +112,25 @@ const Configuration = () => {
 
           {/* Papelitos per Player */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
+            transition={{ delay: 0.1 }}
           >
             <Card className="paper-card border border-border">
               <CardHeader className="p-3 pb-2">
-                <CardTitle className="flex items-center gap-2 text-sm">
+                <CardTitle className="flex items-center gap-1.5 text-sm">
                   <FileText className="w-4 h-4 text-primary" />
-                  Papelitos/Jugador
+                  <span className="text-xs">Papelitos/Jug.</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-3 pt-0 relative z-10">
-                <div className="grid grid-cols-2 gap-2">
+              <CardContent className="p-2 pt-0 relative z-10">
+                <div className="grid grid-cols-2 gap-1.5">
                   {papelitosOptions.map((num) => (
                     <Button
                       key={num}
                       variant={papelitosPerPlayer === num ? 'default' : 'outline'}
                       size="sm"
-                      className={`btn-paper text-xs ${
+                      className={`btn-paper text-xs h-8 ${
                         papelitosPerPlayer === num
                           ? 'bg-primary text-primary-foreground border-primary'
                           : 'border'
@@ -146,31 +146,31 @@ const Configuration = () => {
           </motion.div>
         </div>
 
-        {/* Toggles - Compact */}
+        {/* Toggles - Ultra Compact */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="space-y-2"
+          transition={{ delay: 0.15 }}
         >
           <Card className="paper-card border border-border">
-            <CardContent className="p-3 space-y-2 relative z-10">
+            <CardContent className="p-3 space-y-2.5 relative z-10">
               {/* Sound Toggle */}
               <div className="flex items-center justify-between">
                 <Label htmlFor="sound" className="flex items-center gap-2 text-sm font-medium cursor-pointer">
                   {soundEnabled ? <Volume2 className="w-4 h-4 text-primary" /> : <VolumeX className="w-4 h-4 text-muted-foreground" />}
-                  Sonidos
+                  <span className="text-sm">Sonidos</span>
                 </Label>
                 <Switch id="sound" checked={soundEnabled} onCheckedChange={setSoundEnabled} />
               </div>
               
               {/* Easy Mode Toggle */}
               <div className="flex items-center justify-between pt-2 border-t">
-                <div className="flex-1">
-                  <Label htmlFor="easyMode" className="text-sm font-medium cursor-pointer flex items-center gap-2">
-                    {easyMode ? '😊' : '🔥'} Modo Fácil
+                <div className="flex-1 pr-3">
+                  <Label htmlFor="easyMode" className="text-sm font-medium cursor-pointer flex items-center gap-1.5">
+                    <span>{easyMode ? '😊' : '🔥'}</span>
+                    <span className="text-sm">Modo Fácil</span>
                   </Label>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-muted-foreground leading-tight mt-0.5">
                     {easyMode ? 'Sin restricciones' : 'Con 3 restricciones'}
                   </p>
                 </div>
@@ -180,22 +180,23 @@ const Configuration = () => {
           </Card>
         </motion.div>
 
-        {/* Players Input - Compact */}
+        {/* Players Input - Compact with flex-1 */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
+          transition={{ delay: 0.2 }}
+          className="flex-1 flex flex-col min-h-0"
         >
-          <Card className="paper-card border border-border">
+          <Card className="paper-card border border-border flex flex-col h-full">
             <CardHeader className="p-3 pb-2">
               <CardTitle className="text-sm flex items-center justify-between">
                 <span>Jugadores (mín. 4)</span>
                 {players.length > 0 && (
-                  <Badge variant="secondary" className="text-xs">{players.length}</Badge>
+                  <Badge variant="secondary" className="text-xs px-2 py-0.5">{players.length}</Badge>
                 )}
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-3 pt-0 space-y-2 relative z-10">
+            <CardContent className="p-3 pt-0 space-y-2 relative z-10 flex-1 flex flex-col min-h-0">
               {/* Add player input */}
               <div className="flex gap-2">
                 <Input
@@ -205,276 +206,57 @@ const Configuration = () => {
                   onKeyDown={(e) => e.key === 'Enter' && addPlayer()}
                   className="border h-9 text-sm"
                 />
-                <Button onClick={addPlayer} size="sm" className="btn-paper bg-primary h-9 w-9 p-0">
+                <Button onClick={addPlayer} size="sm" className="btn-paper bg-primary h-9 w-9 p-0 shrink-0">
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>
 
-              {/* Players list - Max height with scroll */}
+              {/* Players list - Scrollable area */}
               {players.length > 0 && (
-                <div className="space-y-1 max-h-32 overflow-y-auto">
-                  {players.map((player, index) => (
-                    <motion.div
-                      key={player}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
-                      transition={{ delay: index * 0.03 }}
-                      className="flex items-center justify-between p-2 bg-secondary rounded border border-border text-sm"
-                    >
-                      <span className="font-medium">{player}</span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => removePlayer(player)}
-                        className="h-6 w-6 text-muted-foreground hover:text-destructive"
+                <>
+                  <div className="flex-1 min-h-0 overflow-y-auto space-y-1.5 pr-1">
+                    {players.map((player, index) => (
+                      <motion.div
+                        key={player}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                        transition={{ delay: index * 0.02 }}
+                        className="flex items-center justify-between p-2 bg-secondary rounded border border-border text-sm"
                       >
-                        <X className="w-3 h-3" />
-                      </Button>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
-
-              {players.length > 0 && (
-                <p className="text-xs text-muted-foreground text-center pt-1">
-                  {players.length * papelitosPerPlayer} papelitos total
-                </p>
-              )}
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Continue Button */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          <Button
-            onClick={handleContinue}
-            disabled={players.length < 4}
-            size="lg"
-            className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-12"
-          >
-            Continuar a Equipos
-          </Button>
-        </motion.div>
-      </div>
-    </div>
-  );
-        {/* Header */}
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => updateGameState({ screen: 'home' })}
-            className="btn-paper"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Configuración</h1>
-            <p className="text-muted-foreground text-sm">Prepara tu partida</p>
-          </div>
-        </div>
-
-        {/* Time Selection */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <Card className="paper-card border-2 border-border">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Clock className="w-5 h-5 text-primary" />
-                Tiempo por Turno
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="relative z-10">
-              <div className="grid grid-cols-4 gap-3">
-                {timeOptions.map((time) => (
-                  <Button
-                    key={time}
-                    variant={turnTime === time ? 'default' : 'outline'}
-                    className={`btn-paper ${
-                      turnTime === time
-                        ? 'bg-primary text-primary-foreground border-primary'
-                        : 'border-2'
-                    }`}
-                    onClick={() => setTurnTime(time)}
-                  >
-                    {time}s
-                  </Button>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Papelitos per Player */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <Card className="paper-card border-2 border-border">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <FileText className="w-5 h-5 text-primary" />
-                Papelitos por Jugador
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="relative z-10">
-              <div className="grid grid-cols-4 gap-3">
-                {papelitosOptions.map((num) => (
-                  <Button
-                    key={num}
-                    variant={papelitosPerPlayer === num ? 'default' : 'outline'}
-                    className={`btn-paper ${
-                      papelitosPerPlayer === num
-                        ? 'bg-primary text-primary-foreground border-primary'
-                        : 'border-2'
-                    }`}
-                    onClick={() => setPapelitosPerPlayer(num)}
-                  >
-                    {num}
-                  </Button>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Sound Toggle */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
-        >
-          <Card className="paper-card border-2 border-border">
-            <CardContent className="p-6 relative z-10">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="sound" className="flex items-center gap-2 text-base font-medium cursor-pointer">
-                  {soundEnabled ? (
-                    <Volume2 className="w-5 h-5 text-primary" />
-                  ) : (
-                    <VolumeX className="w-5 h-5 text-muted-foreground" />
-                  )}
-                  Sonidos de Papel
-                </Label>
-                <Switch
-                  id="sound"
-                  checked={soundEnabled}
-                  onCheckedChange={setSoundEnabled}
-                />
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Easy Mode Toggle */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <Card className="paper-card border-2 border-border">
-            <CardContent className="p-6 space-y-3 relative z-10">
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <Label htmlFor="easyMode" className="text-base font-medium cursor-pointer flex items-center gap-2">
-                    {easyMode ? '😊' : '🔥'}
-                    Modo Fácil (sin restricciones)
-                  </Label>
-                  <p className="text-xs text-muted-foreground">
-                    {easyMode 
-                      ? 'Solo escribes la respuesta, sin palabras prohibidas' 
-                      : 'Juego completo con 3 palabras prohibidas por papelito'}
+                        <span className="font-medium text-sm">{player}</span>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => removePlayer(player)}
+                          className="h-6 w-6 text-muted-foreground hover:text-destructive shrink-0"
+                        >
+                          <X className="w-3 h-3" />
+                        </Button>
+                      </motion.div>
+                    ))}
+                  </div>
+                  <p className="text-xs text-muted-foreground text-center pt-1">
+                    {players.length * papelitosPerPlayer} papelitos total
                   </p>
-                </div>
-                <Switch
-                  id="easyMode"
-                  checked={easyMode}
-                  onCheckedChange={setEasyMode}
-                />
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Players Input */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <Card className="paper-card border-2 border-border">
-            <CardHeader>
-              <CardTitle className="text-lg">Jugadores (mínimo 4)</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 relative z-10">
-              {/* Add player input */}
-              <div className="flex gap-2">
-                <Input
-                  placeholder="Nombre del jugador"
-                  value={newPlayerName}
-                  onChange={(e) => setNewPlayerName(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && addPlayer()}
-                  className="border-2"
-                />
-                <Button onClick={addPlayer} size="icon" className="btn-paper bg-primary">
-                  <Plus className="w-5 h-5" />
-                </Button>
-              </div>
-
-              {/* Players list */}
-              {players.length > 0 && (
-                <div className="space-y-2">
-                  {players.map((player, index) => (
-                    <motion.div
-                      key={player}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="flex items-center justify-between p-3 bg-secondary rounded-lg border border-border"
-                    >
-                      <span className="font-medium">{player}</span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => removePlayer(player)}
-                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
-
-              {players.length > 0 && (
-                <p className="text-sm text-muted-foreground text-center">
-                  {players.length} jugador{players.length !== 1 ? 'es' : ''} • Total de {players.length * papelitosPerPlayer} papelitos
-                </p>
+                </>
               )}
             </CardContent>
           </Card>
         </motion.div>
 
-        {/* Continue Button */}
+        {/* Continue Button - Fixed at bottom */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.25 }}
+          className="pt-2"
         >
           <Button
             onClick={handleContinue}
             disabled={players.length < 4}
             size="lg"
-            className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-14"
+            className="w-full btn-paper bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-12 text-base"
           >
             Continuar a Equipos
           </Button>
