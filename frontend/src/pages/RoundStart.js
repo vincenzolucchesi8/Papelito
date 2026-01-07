@@ -19,15 +19,10 @@ import {
 
 const RoundStart = () => {
   const { gameState, updateGameState, startNewRound, resetGame } = useGame();
-  const [timeRemaining, setTimeRemaining] = useState(null);
-
+  
   // Detectar si venimos de una ronda anterior con tiempo restante
-  useEffect(() => {
-    const savedTime = sessionStorage.getItem('remainingTime');
-    if (savedTime && parseInt(savedTime) > 0) {
-      setTimeRemaining(parseInt(savedTime));
-    }
-  }, []);
+  const savedTime = typeof window !== 'undefined' ? sessionStorage.getItem('remainingTime') : null;
+  const timeRemaining = savedTime && parseInt(savedTime) > 0 ? parseInt(savedTime) : null;
 
   const handleRestart = () => {
     sessionStorage.clear();
